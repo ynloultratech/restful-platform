@@ -1,0 +1,5 @@
+restful_platform_get_media_file:
+    path: /{uuid}/{name}
+    defaults:  { _controller: RestfulPlatformBundle:MediaFileApi:download }
+    methods:
+      - GET

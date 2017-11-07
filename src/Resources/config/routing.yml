@@ -1,0 +1,7 @@
+rest_api_doc:
+    path:      /
+    defaults:  { _controller: RestfulPlatformBundle:Documentation:doc }
+
+rest_api_doc_json:
+    path:      /swagger.json
+    defaults:  { _controller: RestfulPlatformBundle:Documentation:docJson }

@@ -1,0 +1,74 @@
+<!-- HTML for static distribution bundle build -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700|Source+Code+Pro:300,600|Titillium+Web:400,600,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/restfulplatform/swagger-ui/swagger-ui.css') }}">
+    <style>
+        html {
+            box-sizing: border-box;
+            overflow: -moz-scrollbars-vertical;
+            overflow-y: scroll;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            background: #fafafa;
+        }
+
+        .models {
+            display: none;
+        }
+
+        .swagger-ui .parameters-col_description p {
+            font-weight: normal;
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        .swagger-ui .opblock-description-wrapper p,
+        .swagger-ui .opblock-external-docs-wrapper p,
+        .swagger-ui .opblock-title_normal p {
+            line-height: 20px;
+            margin-bottom: 5px;
+        }
+
+        .swagger-ui .opblock-body pre {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="swagger-ui"></div>
+
+<script src="{{ asset('bundles/restfulplatform/swagger-ui/swagger-ui-bundle.js') }}"></script>
+<script src="{{ asset('bundles/restfulplatform/swagger-ui/swagger-ui-standalone-preset.js') }}"></script>
+<script>
+    window.onload = function () {
+        const ui = SwaggerUIBundle({
+            url: '{{ path('rest_api_doc_json', { 'version': version }) }}',
+            dom_id: '#swagger-ui',
+            docExpansion: 'none',
+            validatorUrl: null,
+            presets: [
+                SwaggerUIBundle.presets.apis,
+                SwaggerUIStandalonePreset
+            ],
+            layout: "StandaloneLayout"
+        });
+        window.ui = ui
+    }
+</script>
+</body>
+
+</html>

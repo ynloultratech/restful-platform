@@ -1,0 +1,114 @@
+services:
+    tagged_services:
+        class: Ynlo\RestfulPlatformBundle\Component\TaggedServices\TaggedServices
+        arguments: [ '@service_container' ]
+
+    restful_platform.api_pool:
+        class: Ynlo\RestfulPlatformBundle\Api\RestApiPool
+        calls:
+            - ['setContainer', ['@service_container']]
+
+    restful_platform.api_specification:
+        class: Ynlo\RestfulPlatformBundle\Api\RestApiSpecification
+        arguments: ['@restful_platform.api_pool', '%restful_platform.config%', '%kernel.cache_dir%']
+
+    restful_platform.route_loader:
+        class: Ynlo\RestfulPlatformBundle\Routing\RouteLoader
+        arguments: ['@restful_platform.api_pool']
+        tags: [routing.loader]
+        public: false
+
+    restful_platform.request_listener:
+        class: Ynlo\RestfulPlatformBundle\EventListener\ApiRequestListener
+        public: false
+        calls:
+            - ['setContainer', ['@service_container']]
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
+    restful_platform.exception_listener:
+        class: Ynlo\RestfulPlatformBundle\EventListener\ExceptionListener
+        public: false
+        arguments: ['%restful_platform.exception_controller%', '@logger']
+        tags:
+            - { name: 'kernel.event_subscriber' }
+
+    restful_platform.cache_warmer:
+        class: Ynlo\RestfulPlatformBundle\Cache\ApiSpecificationCacheWarmer
+        arguments: ['@restful_platform.api_specification']
+        public: false
+        tags:
+            - { name: 'kernel.cache_warmer', priority: 200 }
+            - { name: 'kernel.event_subscriber', priority: 200 }
+
+    restful_platform.resource_orm_paginator:
+        class: Ynlo\RestfulPlatformBundle\Paginator\ORMPaginator
+        arguments: ['@doctrine.orm.entity_manager', '@knp_paginator']
+
+    restful_platform.serializer_constructor:
+        class: Ynlo\RestfulPlatformBundle\Serializer\UnserializeObjectConstructor
+        arguments: ['@doctrine','@jms_serializer.unserialize_object_constructor']
+        calls:
+            - ['setContainer', ['@service_container']]
+
+    jms_serializer.object_constructor:
+        alias: restful_platform.serializer_constructor
+        public: false
+
+
+    restful_platform.hateoas_route_generator:
+        class: Ynlo\RestfulPlatformBundle\Routing\HateoasRouteGenerator
+        arguments: ['@router','@request_stack']
+
+    hateoas.generator.symfony:
+        alias: restful_platform.hateoas_route_generator
+        public: false
+
+    restful_platform.media_storage_pool:
+        class: Ynlo\RestfulPlatformBundle\MediaServer\MediaStorageProviderPool
+        arguments: ['%restful_platform.config.media_server%']
+
+    restful_platform.root_endpoint:
+        class: Ynlo\RestfulPlatformBundle\Api\RootEndpoint
+        tags:
+          - { name: 'restful_platform.rest_api'}
+
+    restful_platform.media_file_api:
+        class: Ynlo\RestfulPlatformBundle\Api\MediaFileApi
+        arguments: ['%restful_platform.config.media_server%']
+        tags:
+          - { name: 'restful_platform.rest_api'}
+
+    restful_platform.media_storage.local:
+        class: Ynlo\RestfulPlatformBundle\MediaServer\LocalMediaStorageProvider
+        arguments: ['@router', '%secret%']
+        tags:
+          - { name: 'restful_platform.media_storage', alias: 'local' }
+
+    restful_platform.media_server_orm_listener:
+        class: Ynlo\RestfulPlatformBundle\EventListener\Doctrine\MediaServerListener
+        calls:
+          - ['setContainer', ['@service_container']]
+        tags:
+          - { name: 'doctrine.event_subscriber' }
+
+    restful_platform.media_server.cache_warmer:
+        class: Ynlo\RestfulPlatformBundle\Cache\MediaServerCacheWarmer
+        arguments: ['@restful_platform.media_server.metadata']
+        public: false
+        tags:
+            - { name: 'kernel.cache_warmer', priority: 200 }
+            - { name: 'kernel.event_subscriber', priority: 200 }
+
+    restful_platform.media_server.metadata:
+        class: Ynlo\RestfulPlatformBundle\MediaServer\MediaServerMetadata
+        arguments: ['@doctrine.orm.entity_manager','%kernel.cache_dir%']
+
+    restful_platform.hateoas.media_file_configuration_extension:
+        class: Ynlo\RestfulPlatformBundle\Hateoas\MediaFileConfigurationExtension
+        tags:
+          - { name: 'hateoas.configuration_extension' }
+
+    restful_platform.exception_controller:
+        class: Ynlo\RestfulPlatformBundle\Controller\ExceptionController
+
