@@ -1,0 +1,23 @@
+language: php
+
+php:
+  - 7.0
+  - 7.1
+
+env:
+  - SYMFONY_DEPRECATIONS_HELPER: weak
+
+notifications:
+  email:
+    - developer@ynloultratech.com
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
+install:
+  - travis_retry composer global require hirak/prestissimo
+  - travis_retry composer install --no-interaction
+
+script:
+  - php bin/codecept run -c codeception.yml
