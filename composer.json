@@ -1,0 +1,40 @@
+{
+  "name": "ynloultratech/restful-platform",
+  "description": "Framework designed to easily create API projects based on OpenAPI Specification (OAS)",
+  "license": "MIT",
+  "type": "symfony-bundle",
+  "authors": [
+    {
+      "name": "YNLO-Ultratech Development Team",
+      "email": "developer@ynloultratech.com",
+      "homepage": "https://github.com/ynloultratech"
+    }
+  ],
+  "keywords": [
+    "api",
+    "oas",
+    "restful-api",
+    "swagger"
+  ],
+  "autoload": {
+    "psr-4": {
+      "Ynlo\\RestfulPlatformBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Ynlo\\RestfulPlatformBundle\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "php": ">=7"
+  },
+  "require-dev": {
+
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  }
+}
