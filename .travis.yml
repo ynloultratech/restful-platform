@@ -20,4 +20,4 @@ install:
   - travis_retry composer install --no-interaction
 
 script:
-  - php bin/codecept run -c codeception.yml
+  - php bin/phpunit -c phpunit.xml
