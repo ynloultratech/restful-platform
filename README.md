@@ -1,8 +1,8 @@
 # RESTful Platform
 
+[![Build Status](https://travis-ci.org/ynloultratech/restful-platform.svg?branch=master)](https://travis-ci.org/ynloultratech/restful-platform)
 [![Latest Stable Version](https://poser.pugx.org/ynloultratech/restful-platform/version)](https://packagist.org/packages/ynloultratech/restful-platform)
 [![Latest Unstable Version](https://poser.pugx.org/ynloultratech/restful-platform/v/unstable)](//packagist.org/packages/ynloultratech/restful-platform)
-[![Total Downloads](https://poser.pugx.org/ynloultratech/restful-platform/downloads)](https://packagist.org/packages/ynloultratech/restful-platform)
 [![License](https://poser.pugx.org/ynloultratech/restful-platform/license)](https://packagist.org/packages/ynloultratech/restful-platform)
 
  Framework _(Symfony Bundle)_ designed to easily create API projects based on [OpenAPI Specification (OAS)](https://swagger.io/)
