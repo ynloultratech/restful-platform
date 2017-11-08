@@ -7,17 +7,25 @@ php:
 env:
   - SYMFONY_DEPRECATIONS_HELPER: weak
 
-notifications:
-  email:
-    - developer@ynloultratech.com
-
 cache:
   directories:
-    - $HOME/.composer/cache
+    - .composer/cache
+
+before_install:
+  - alias composer=composer\ -n && composer self-update
 
 install:
   - travis_retry composer global require hirak/prestissimo
   - travis_retry composer install --no-interaction
 
 script:
-  - php bin/phpunit -c phpunit.xml
+  - mkdir -p build/logs
+  - php bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
+
+after_script:
+ - composer require satooshi/php-coveralls
+ - php vendor/bin/coveralls
+
+notifications:
+  email:
+    - developer@ynloultratech.com
