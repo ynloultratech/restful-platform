@@ -13,6 +13,9 @@ namespace Ynlo\RestfulPlatformBundle\Swagger\Specification\Common;
 
 use Ynlo\RestfulPlatformBundle\Swagger\Model\SwaggerSpecModel;
 
+/**
+ * Can contains multiple decorators inside a array
+ */
 class SpecContainer implements SpecDecorator
 {
     /**

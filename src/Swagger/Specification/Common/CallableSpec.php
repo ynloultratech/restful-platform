@@ -11,6 +11,9 @@
 
 namespace Ynlo\RestfulPlatformBundle\Swagger\Specification\Common;
 
+/**
+ * The decorator is called using a callable instead of specific class
+ */
 class CallableSpec implements SpecDecorator
 {
     protected $callable;
