@@ -25,7 +25,7 @@ class PropertySpec extends SpecContainer
      * @param string $name
      * @param array  $spec
      */
-    public function __construct($name, $spec = [])
+    public function __construct($name, array $spec = [])
     {
         $this->name = $name;
         parent::__construct($spec);
