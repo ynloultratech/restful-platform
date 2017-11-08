@@ -16,6 +16,10 @@
 - [X] Integrated API documentation using [Swagger UI](https://swagger.io/swagger-ui/)
 - [X] Support for Hateoas using [willdurand/hateoas](https://github.com/willdurand/hateoas)
 
+## Documentation
+
+You can learn more about the bundle in its [documentation](https://ynloultratech.github.io/restful-platform/)
+
 ## Copyright
 
 This project is licensed under the [MIT license](LICENSE).
