@@ -23,12 +23,12 @@ class PathSpec extends SpecContainer
     protected $path;
 
     /**
-     * @param string $method
+     * @param string $path
      * @param array  $specs
      */
-    public function __construct($method, array $specs)
+    public function __construct($path, array $specs)
     {
-        $this->path = $method;
+        $this->path = $path;
         parent::__construct($specs);
     }
 
