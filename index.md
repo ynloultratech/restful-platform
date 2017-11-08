@@ -5,4 +5,4 @@ title: RESTful Platform
 
 ## Introduction
 
- [Install](installation.html)
+ [Install](install.html)
