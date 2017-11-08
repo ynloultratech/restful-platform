@@ -1,6 +1,7 @@
 # RESTful Platform
 
 [![Build Status](https://travis-ci.org/ynloultratech/restful-platform.svg?branch=master)](https://travis-ci.org/ynloultratech/restful-platform)
+[![Coverage Status](https://coveralls.io/repos/github/ynloultratech/restful-platform/badge.svg?branch=master)](https://coveralls.io/github/ynloultratech/restful-platform?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/ynloultratech/restful-platform/version)](https://packagist.org/packages/ynloultratech/restful-platform)
 [![Latest Unstable Version](https://poser.pugx.org/ynloultratech/restful-platform/v/unstable)](//packagist.org/packages/ynloultratech/restful-platform)
 [![License](https://poser.pugx.org/ynloultratech/restful-platform/license)](https://packagist.org/packages/ynloultratech/restful-platform)
