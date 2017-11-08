@@ -11,6 +11,10 @@
 
 namespace Ynlo\RestfulPlatformBundle\Swagger\Specification\Common;
 
+/**
+ * Contains one single value to assign in the decorator,
+ * is the base class for many decorators
+ */
 abstract class ValueSpec implements SpecDecorator
 {
     protected $value;
