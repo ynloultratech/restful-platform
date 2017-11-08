@@ -14,10 +14,11 @@ class RestfulPlatformBundleTest extends TestCase
         $bundle = new RestfulPlatformBundle();
         self::assertEquals('RestfulPlatformBundle', $bundle->getName());
 
-        $containerMock = \Mockery::mock(ContainerInterface::class)
-                                 ->allows('get')
-                                 ->andReturn(\Mockery::mock(SerializedNameAnnotationStrategy::class))
-                                 ->getMock();
+        $containerMock = self::createMock(ContainerInterface::class);
+        $containerMock->expects(self::once())
+                      ->method('get')
+                      ->willReturn(self::createMock(SerializedNameAnnotationStrategy::class));
+
         $bundle->setContainer($containerMock);
         $bundle->boot();
     }
