@@ -18,10 +18,18 @@ class EnumSpec extends ValueSpec
 {
     /**
      * @param Property $spec
-     * @param $value
+     * @param array    $value
      */
     public function setValue($spec, $value)
     {
+        if (!is_array($value)) {
+            throw new \InvalidArgumentException('The value should be a array');
+        }
+
+        if (!$spec instanceof Property) {
+            throw new \InvalidArgumentException(sprintf('Enum only is applicable for "%s"', Property::class));
+        }
+
         $spec->setEnum($value);
     }
 }
