@@ -35,17 +35,17 @@ class ModelPropertySchema
     protected $name;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $description;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $type;
 
     /**
-     * @var string
+     * @var string|null
      */
     protected $format;
 
@@ -57,14 +57,14 @@ class ModelPropertySchema
     /**
      * Used when type is array and use associative array
      *
-     * @var string
+     * @var string|null
      */
     protected $keyType;
 
     /**
      * Used when type is array
      *
-     * @var string
+     * @var string|null
      */
     protected $itemType;
 
@@ -93,7 +93,7 @@ class ModelPropertySchema
      *
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
@@ -101,21 +101,25 @@ class ModelPropertySchema
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
+     *
+     * @return ModelPropertySchema
      */
-    public function setName(string $name)
+    public function setName(string $name): ModelPropertySchema
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getDescription()
     {
@@ -124,14 +128,18 @@ class ModelPropertySchema
 
     /**
      * @param string $description
+     *
+     * @return ModelPropertySchema
      */
-    public function setDescription(string $description = null)
+    public function setDescription(string $description = null): ModelPropertySchema
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getType()
     {
@@ -140,14 +148,18 @@ class ModelPropertySchema
 
     /**
      * @param string $type
+     *
+     * @return ModelPropertySchema
      */
-    public function setType(string $type = null)
+    public function setType(string $type = null): ModelPropertySchema
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getItemType()
     {
@@ -156,14 +168,18 @@ class ModelPropertySchema
 
     /**
      * @param string $itemType
+     *
+     * @return ModelPropertySchema
      */
-    public function setItemType(string $itemType = null)
+    public function setItemType(string $itemType = null): ModelPropertySchema
     {
         $this->itemType = $itemType;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getKeyType()
     {
@@ -172,14 +188,18 @@ class ModelPropertySchema
 
     /**
      * @param string $keyType
+     *
+     * @return ModelPropertySchema
      */
-    public function setKeyType(string $keyType = null)
+    public function setKeyType(string $keyType = null): ModelPropertySchema
     {
         $this->keyType = $keyType;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getFormat()
     {
@@ -188,10 +208,14 @@ class ModelPropertySchema
 
     /**
      * @param string $format
+     *
+     * @return ModelPropertySchema
      */
-    public function setFormat(string $format = null)
+    public function setFormat(string $format = null): ModelPropertySchema
     {
         $this->format = $format;
+
+        return $this;
     }
 
     /**
@@ -204,10 +228,14 @@ class ModelPropertySchema
 
     /**
      * @param array $enum
+     *
+     * @return ModelPropertySchema
      */
-    public function setEnum(array $enum)
+    public function setEnum(array $enum): ModelPropertySchema
     {
         $this->enum = $enum;
+
+        return $this;
     }
 
     /**
@@ -220,57 +248,73 @@ class ModelPropertySchema
 
     /**
      * @param mixed $example
+     *
+     * @return ModelPropertySchema
      */
-    public function setExample($example = null)
+    public function setExample($example = null): ModelPropertySchema
     {
         $this->example = $example;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isRequired()
+    public function isRequired(): bool
     {
         return $this->required;
     }
 
     /**
      * @param bool $required
+     *
+     * @return ModelPropertySchema
      */
-    public function setRequired(bool $required)
+    public function setRequired(bool $required): ModelPropertySchema
     {
         $this->required = $required;
+
+        return $this;
     }
 
     /**
      * @return bool
      */
-    public function isReadOnly()
+    public function isReadOnly(): bool
     {
         return $this->readOnly;
     }
 
     /**
      * @param bool $readOnly
+     *
+     * @return ModelPropertySchema
      */
-    public function setReadOnly(bool $readOnly)
+    public function setReadOnly(bool $readOnly): ModelPropertySchema
     {
         $this->readOnly = $readOnly;
+
+        return $this;
     }
 
     /**
      * @return array
      */
-    public function getGroups()
+    public function getGroups(): array
     {
         return $this->groups;
     }
 
     /**
      * @param array $groups
+     *
+     * @return ModelPropertySchema
      */
-    public function setGroups(array $groups)
+    public function setGroups(array $groups): ModelPropertySchema
     {
         $this->groups = $groups;
+
+        return $this;
     }
 }
