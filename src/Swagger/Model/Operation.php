@@ -29,7 +29,7 @@ class Operation implements
     protected $operationId;
 
     /**
-     * @var ArrayCollection|string[]
+     * @var ArrayCollection
      * @Serializer\Type("array<string>")
      * @Serializer\Exclude(if="object.getTags().isEmpty()")
      */
@@ -41,14 +41,14 @@ class Operation implements
     protected $summary;
 
     /**
-     * @var ArrayCollection|Parameter[]
+     * @var ArrayCollection
      * @Serializer\Type("ArrayCollection<Ynlo\RestfulPlatformBundle\Swagger\Model\Parameter>")
      * @Serializer\Exclude(if="object.getParameters().isEmpty()")
      */
     protected $parameters;
 
     /**
-     * @var ArrayCollection|Response[]
+     * @var ArrayCollection
      * @Serializer\Type("ArrayCollection<integer,Ynlo\RestfulPlatformBundle\Swagger\Model\Response>")
      * @Serializer\Exclude(if="object.getResponses().isEmpty()")
      */
@@ -74,26 +74,34 @@ class Operation implements
 
     /**
      * @param string $operationId
+     *
+     * @return $this;
      */
     public function setOperationId(string $operationId)
     {
         $this->operationId = $operationId;
+
+        return $this;
     }
 
     /**
-     * @return ArrayCollection|\string[]
+     * @return ArrayCollection
      */
-    public function getTags()
+    public function getTags(): ArrayCollection
     {
         return $this->tags;
     }
 
     /**
-     * @param ArrayCollection|\string[] $tags
+     * @param ArrayCollection $tags
+     *
+     * @return $this;
      */
     public function setTags($tags)
     {
         $this->tags = $tags;
+
+        return $this;
     }
 
     /**
@@ -106,32 +114,40 @@ class Operation implements
 
     /**
      * @param string $summary
+     *
+     * @return $this;
      */
     public function setSummary(string $summary)
     {
         $this->summary = $summary;
+
+        return $this;
     }
 
     /**
-     * @return ArrayCollection|Parameter[]
+     * @return ArrayCollection
      */
-    public function getParameters()
+    public function getParameters(): ArrayCollection
     {
         return $this->parameters;
     }
 
     /**
-     * @param ArrayCollection|Parameter[] $parameters
+     * @param ArrayCollection $parameters
+     *
+     * @return $this;
      */
-    public function setParameters($parameters)
+    public function setParameters(ArrayCollection $parameters)
     {
         $this->parameters = $parameters;
+
+        return $this;
     }
 
     /**
-     * @return ArrayCollection|Response[]
+     * @return ArrayCollection
      */
-    public function getResponses()
+    public function getResponses(): ArrayCollection
     {
         return $this->responses;
     }
@@ -147,10 +163,14 @@ class Operation implements
     }
 
     /**
-     * @param ArrayCollection|Response[] $responses
+     * @param ArrayCollection $responses
+     *
+     * @return $this
      */
-    public function setResponses($responses)
+    public function setResponses(ArrayCollection $responses)
     {
         $this->responses = $responses;
+
+        return $this;
     }
 }

@@ -39,9 +39,13 @@ class Info implements SwaggerSpecModel, NameAwareInterface, DescriptionAwareInte
 
     /**
      * @param string $version
+     *
+     * @return $this;
      */
     public function setVersion($version)
     {
         $this->version = $version;
+
+        return $this;
     }
 }

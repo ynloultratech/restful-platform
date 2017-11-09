@@ -36,9 +36,13 @@ class Property extends Schema
 
     /**
      * @param array $enum
+     *
+     * @return $this
      */
     public function setEnum(array $enum)
     {
         $this->enum = $enum;
+
+        return $this;
     }
 }

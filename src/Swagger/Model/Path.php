@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * C@Serializer\VirtualProperty()
+ * @Serializer\VirtualProperty()
  */
 class Path implements SwaggerSpecModel
 {
@@ -28,7 +28,7 @@ class Path implements SwaggerSpecModel
     const OPTIONS = 'options';
 
     /**
-     * @var ArrayCollection|Operation[]
+     * @var ArrayCollection
      * @Serializer\Inline()
      */
     protected $operations = [];
@@ -40,9 +40,9 @@ class Path implements SwaggerSpecModel
     protected $path;
 
     /**
-     * @param $path
+     * @param string $path
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = $path;
         $this->operations = new ArrayCollection();
@@ -51,13 +51,13 @@ class Path implements SwaggerSpecModel
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }
 
     /**
-     * @return ArrayCollection|Operation[]
+     * @return ArrayCollection
      */
     public function getOperations(): ArrayCollection
     {
@@ -65,10 +65,14 @@ class Path implements SwaggerSpecModel
     }
 
     /**
-     * @param ArrayCollection|Operation[] $operations
+     * @param ArrayCollection $operations
+     *
+     * @return $this
      */
     public function setOperations(ArrayCollection $operations)
     {
         $this->operations = $operations;
+
+        return $this;
     }
 }

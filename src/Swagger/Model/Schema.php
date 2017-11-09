@@ -52,7 +52,7 @@ class Schema implements SwaggerSpecModel,
     protected $class;
 
     /**
-     * @var Schema[]|ArrayCollection
+     * @var ArrayCollection
      * @Serializer\Exclude(if="object.getProperties().isEmpty()")
      */
     protected $properties;
@@ -92,9 +92,9 @@ class Schema implements SwaggerSpecModel,
     }
 
     /**
-     * @return ArrayCollection|Schema[]
+     * @return ArrayCollection
      */
-    public function getProperties()
+    public function getProperties(): ArrayCollection
     {
         return $this->properties;
     }
@@ -102,7 +102,7 @@ class Schema implements SwaggerSpecModel,
     /**
      * @param string $name
      *
-     * @return Schema
+     * @return Schema|null
      */
     public function getProperty($name)
     {
@@ -111,14 +111,18 @@ class Schema implements SwaggerSpecModel,
 
     /**
      * @param ArrayCollection|Schema[] $properties
+     *
+     * @return $this;
      */
     public function setProperties($properties)
     {
         $this->properties = $properties;
+
+        return $this;
     }
 
     /**
-     * @return Schema
+     * @return Schema|null
      */
     public function getItems()
     {
@@ -127,10 +131,14 @@ class Schema implements SwaggerSpecModel,
 
     /**
      * @param Schema $items
+     *
+     * @return $this;
      */
     public function setItems(Schema $items)
     {
         $this->items = $items;
+
+        return $this;
     }
 
     /**
@@ -147,10 +155,14 @@ class Schema implements SwaggerSpecModel,
 
     /**
      * @param Schema $additionalProperties
+     *
+     * @return $this;
      */
     public function setAdditionalProperties(Schema $additionalProperties)
     {
         $this->additionalProperties = $additionalProperties;
+
+        return $this;
     }
 
     /**
@@ -163,10 +175,14 @@ class Schema implements SwaggerSpecModel,
 
     /**
      * @param mixed $class
+     *
+     * @return $this;
      */
     public function setClass($class)
     {
         $this->class = $class;
+
+        return $this;
     }
 
     /**
@@ -179,9 +195,13 @@ class Schema implements SwaggerSpecModel,
 
     /**
      * @param array $groups
+     *
+     * @return $this
      */
     public function setGroups(array $groups)
     {
         $this->groups = $groups;
+
+        return $this;
     }
 }

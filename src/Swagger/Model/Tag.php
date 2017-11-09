@@ -11,7 +11,6 @@
 
 namespace Ynlo\RestfulPlatformBundle\Swagger\Model;
 
-
 use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\DescriptionAwareInterface;
 use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\DescriptionAwareTrait;
 use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\NameAwareInterface;

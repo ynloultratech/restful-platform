@@ -16,10 +16,13 @@ use JMS\Serializer\Annotation as Serializer;
 
 class SwaggerObject implements SwaggerSpecModel
 {
+    const SWAGGER_v2 = '2.0';
+    const SWAGGER_v3 = '3.0';//TODO: implement the new specification
+
     /**
      * @var string
      */
-    protected $swagger = '2.0';
+    protected $swagger = self::SWAGGER_v2;
 
     /**
      * @var Info
@@ -29,13 +32,13 @@ class SwaggerObject implements SwaggerSpecModel
     /**
      * @var string
      */
-    protected $host;
+    protected $host = '';
 
     /**
      * @var string
      * @Serializer\SerializedName("basePath")
      */
-    protected $basePath;
+    protected $basePath = '';
 
     /**
      * @var array|string[]
@@ -67,7 +70,7 @@ class SwaggerObject implements SwaggerSpecModel
     protected $tags = [];
 
     /**
-     * @var ArrayCollection|Schema[]
+     * @var ArrayCollection
      * @Serializer\Exclude(if="object.getDefinitions().isEmpty()")
      */
     protected $definitions;
@@ -85,17 +88,21 @@ class SwaggerObject implements SwaggerSpecModel
     /**
      * @return string
      */
-    public function getSwagger()
+    public function getSwagger(): string
     {
         return $this->swagger;
     }
 
     /**
      * @param string $swagger
+     *
+     * @return $this
      */
     public function setSwagger(string $swagger)
     {
         $this->swagger = $swagger;
+
+        return $this;
     }
 
     /**
@@ -108,16 +115,20 @@ class SwaggerObject implements SwaggerSpecModel
 
     /**
      * @param Info $info
+     *
+     * @return $this
      */
     public function setInfo(Info $info)
     {
         $this->info = $info;
+
+        return $this;
     }
 
     /**
      * @param string $path
      *
-     * @return Path
+     * @return Path|null
      */
     public function getPath($path)
     {
@@ -125,7 +136,7 @@ class SwaggerObject implements SwaggerSpecModel
     }
 
     /**
-     * @return ArrayCollection|Path[]
+     * @return ArrayCollection
      */
     public function getPaths(): ArrayCollection
     {
@@ -133,126 +144,158 @@ class SwaggerObject implements SwaggerSpecModel
     }
 
     /**
-     * @param ArrayCollection|Path[] $paths
+     * @param ArrayCollection $paths
+     *
+     * @return $this
      */
     public function setPaths(ArrayCollection $paths)
     {
         $this->paths = $paths;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getHost()
+    public function getHost(): string
     {
         return $this->host;
     }
 
     /**
      * @param string $host
+     *
+     * @return $this
      */
-    public function setHost($host)
+    public function setHost(string $host)
     {
         $this->host = $host;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBasePath()
+    public function getBasePath(): string
     {
         return $this->basePath;
     }
 
     /**
      * @param string $basePath
+     *
+     * @return $this
      */
     public function setBasePath(string $basePath)
     {
         $this->basePath = $basePath;
+
+        return $this;
     }
 
     /**
      * @return array|\string[]
      */
-    public function getSchemes()
+    public function getSchemes(): array
     {
         return $this->schemes;
     }
 
     /**
      * @param array|\string[] $schemes
+     *
+     * @return $this;
      */
-    public function setSchemes($schemes)
+    public function setSchemes(array $schemes)
     {
         $this->schemes = $schemes;
+
+        return $this;
     }
 
     /**
      * @return array|\string[]
      */
-    public function getConsumes()
+    public function getConsumes(): array
     {
         return $this->consumes;
     }
 
     /**
      * @param array|\string[] $consumes
+     *
+     * @return $this
      */
     public function setConsumes($consumes)
     {
         $this->consumes = $consumes;
+
+        return $this;
     }
 
     /**
      * @return array|\string[]
      */
-    public function getProduces()
+    public function getProduces(): array
     {
         return $this->produces;
     }
 
     /**
      * @param array|\string[] $produces
+     *
+     * @return $this
      */
     public function setProduces($produces)
     {
         $this->produces = $produces;
+
+        return $this;
     }
 
     /**
-     * @return ArrayCollection|Schema[]
+     * @return ArrayCollection
      */
-    public function getDefinitions()
+    public function getDefinitions(): ArrayCollection
     {
         return $this->definitions;
     }
 
     /**
-     * @param ArrayCollection|Schema[] $definitions
+     * @param ArrayCollection $definitions
+     *
+     * @return $this;
      */
     public function setDefinitions($definitions)
     {
         $this->definitions = $definitions;
+
+        return $this;
     }
 
     /**
      * @return array|\string[]
      */
-    public function getTags()
+    public function getTags(): array
     {
         return $this->tags;
     }
 
     /**
-     * @param $name
-     * @param $description
+     * @param string $name
+     * @param string $description
+     *
+     * @return $this
      */
-    public function addTag($name, $description = null)
+    public function addTag(string $name, $description = null)
     {
         $tag = new Tag($name, $description);
         if (!isset($this->tags[$name])) {
             $this->tags[$name] = $tag;
         }
+
+        return $this;
     }
 }

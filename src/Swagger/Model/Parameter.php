@@ -79,10 +79,14 @@ class Parameter implements
 
     /**
      * @param string $in
+     *
+     * @return $this
      */
     public function setIn(string $in)
     {
         $this->in = $in;
+
+        return $this;
     }
 
     /**
@@ -95,9 +99,13 @@ class Parameter implements
 
     /**
      * @param bool $required
+     *
+     * @return $this;
      */
     public function setRequired(bool $required)
     {
         $this->required = $required;
+
+        return $this;
     }
 }
