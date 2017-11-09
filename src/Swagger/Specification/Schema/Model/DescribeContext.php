@@ -31,7 +31,7 @@ class DescribeContext
      * @param \ReflectionClass|\ReflectionProperty|VirtualPropertyMetadata $property
      * @param array                                                        $groups
      */
-    public function __construct($property, array $groups)
+    public function __construct($property, array $groups = [])
     {
         $this->property = $property;
         $this->groups = $groups;

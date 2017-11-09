@@ -31,10 +31,12 @@ class DocCommentDescriber implements ModelDescriberInterface
 
                     //common types to SwaggerTypes
                     switch ($type) {
+                        case 'ArrayCollection':
                         case 'Collection':
                             $type = ModelPropertySchema::TYPE_ARRAY;
                             break;
                         case 'bool':
+                        case 'boolean':
                             $type = ModelPropertySchema::TYPE_BOOLEAN;
                             break;
                         case 'string':
@@ -48,7 +50,7 @@ class DocCommentDescriber implements ModelDescriberInterface
                             $type = ModelPropertySchema::TYPE_NUMBER;
                             $format = ModelPropertySchema::FORMAT_FLOAT;
                             break;
-                        case 'duble':
+                        case 'double':
                             $type = ModelPropertySchema::TYPE_NUMBER;
                             $format = ModelPropertySchema::FORMAT_DOUBLE;
                             break;
@@ -60,7 +62,7 @@ class DocCommentDescriber implements ModelDescriberInterface
 
                     $property->setType($type);
 
-                    if ($format && $property->getFormat()) {
+                    if ($format && !$property->getFormat()) {
                         $property->setFormat($format);
                     }
                 }
