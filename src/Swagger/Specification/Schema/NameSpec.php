@@ -12,16 +12,15 @@
 namespace Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema;
 
 use Ynlo\RestfulPlatformBundle\Swagger\Specification\Common\ValueSpec;
-use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\DescriptionAwareInterface;
 
 class NameSpec extends ValueSpec
 {
     /**
-     * @param DescriptionAwareInterface $spec
+     * @param NameAwareInterface $spec
      * @param string                    $value
      */
     public function setValue($spec, $value)
     {
-        $spec->setDescription($value);
+        $spec->setName($value);
     }
 }

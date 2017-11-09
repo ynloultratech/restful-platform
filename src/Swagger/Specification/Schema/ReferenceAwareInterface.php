@@ -13,7 +13,15 @@ namespace Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema;
 
 interface ReferenceAwareInterface
 {
+    /**
+     * @param mixed $ref
+     *
+     * @return $this
+     */
     public function setRef($ref);
 
+    /**
+     * @return mixed
+     */
     public function getRef();
 }

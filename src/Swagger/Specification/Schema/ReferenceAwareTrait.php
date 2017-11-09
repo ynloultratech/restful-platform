@@ -31,9 +31,13 @@ trait ReferenceAwareTrait
 
     /**
      * @param mixed $ref
+     *
+     * @return $this
      */
     public function setRef($ref)
     {
         $this->ref = $ref;
+
+        return $this;
     }
 }
