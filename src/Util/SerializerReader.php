@@ -36,12 +36,13 @@ class SerializerReader
     public static $namingStrategy;
 
     /**
-     * @param \ReflectionClass|$class |$object $class
-     * @param array            $groups
+     * @param \ReflectionClass|string|object $class
+     * @param array                          $groups
      *
      * @return array
+     * @throws \ReflectionException
      */
-    public static function getProperties(\ReflectionClass $class, $groups = [])
+    public static function getProperties($class, array $groups = []): array
     {
         if (is_string($class)) {
             $class = new \ReflectionClass($class);
@@ -159,7 +160,7 @@ class SerializerReader
      *
      * @return string
      */
-    public static function getSerializedName($property)
+    public static function getSerializedName($property): string
     {
         if (!self::$namingStrategy) {
             return $property->getName();
@@ -184,8 +185,10 @@ class SerializerReader
      * @param \ReflectionProperty|\ReflectionMethod $property
      *
      * @return PropertyType
+     *
+     * @throws \InvalidArgumentException
      */
-    public static function getType($property)
+    public static function getType($property): PropertyType
     {
         $builtInType = 'string';
         $class = null;
@@ -201,7 +204,7 @@ class SerializerReader
             if (preg_match('/^(array)|^(ArrayCollection)/', $jmsType)) {
                 $collection = true;
                 $builtInType = 'array';
-                if (preg_match('/^[ArrayCollection]/', $jmsType)) {
+                if (preg_match('/^(ArrayCollection)/', $jmsType)) {
                     $builtInType = 'object';
                     $class = ArrayCollection::class;
                 }
@@ -213,19 +216,24 @@ class SerializerReader
                     }
                 }
             } elseif ($jmsType && class_exists($jmsType)) {
+                $builtInType = 'object';
                 $class = $jmsType;
             } else {
                 $builtInType = $jmsType;
             }
         }
 
-        if ($itemType && class_exists($itemType)) {
-            $itemType = new PropertyType('object', true, $itemType);
-        } else {
-            $itemType = new PropertyType($itemType, true);
+        if ($itemType) {
+            if (class_exists($itemType)) {
+                $itemType = new PropertyType('object', true, $itemType);
+            } else {
+                $itemType = new PropertyType($itemType, true);
+            }
         }
 
-        $keyType = new PropertyType($keyType);
+        if ($keyType) {
+            $keyType = new PropertyType($keyType);
+        }
 
         return new PropertyType($builtInType, true, $class, $collection, $keyType, $itemType);
     }
@@ -238,8 +246,12 @@ class SerializerReader
      * @param string                         $path
      *
      * @return string
+     *
+     * @throws \ReflectionException
+     * @throws \InvalidArgumentException
+     * @throws \LogicException
      */
-    public static function getSerializedPropertyPath($root, $path)
+    public static function getSerializedPropertyPath($root, $path): string
     {
         if (is_object($root)) {
             $root = get_class($root);
@@ -255,16 +267,18 @@ class SerializerReader
         foreach ($pathArray as &$propName) {
             $index = null;
             if (preg_match('/(\w+)(\[\d+\])$/', $propName, $matches)) {
-                $propName = $matches[1];
-                $index = $matches[2];
+                list(, $propName, $index) = $matches;
             }
 
             $refProperty = new \ReflectionProperty($contextClass, $propName);
             $propName = self::getSerializedName($refProperty).$index;
 
             $type = self::getType($refProperty);
-            if (in_array($type->getBuiltinType(), ['object', 'array'])) {
+            if (in_array($type->getBuiltinType(), ['object', 'array'], true)) {
                 if ($type->isCollection()) {
+                    if (!$type->getCollectionValueType()) {
+                        throw new \LogicException('Undefined collection value type');
+                    }
                     $contextClass = $type->getCollectionValueType()->getClassName();
                     if (!$contextClass) {
                         break;
