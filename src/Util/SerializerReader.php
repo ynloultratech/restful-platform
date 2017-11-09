@@ -178,7 +178,7 @@ class SerializerReader
             $metaData = new VirtualPropertyMetadata($property->class, $property->name);
         }
 
-        return self::$namingStrategy->translateName($metaData);
+        return (string) self::$namingStrategy->translateName($metaData);
     }
 
     /**

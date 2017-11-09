@@ -35,8 +35,9 @@ class JMSSerializerDescriber implements ModelDescriberInterface
 
             //support for DateTime<’format’>
             if (preg_match('/^DateTime/', $type)) {
+                $property->setFormat(ModelPropertySchema::FORMAT_DATETIME);
                 if (preg_match('/<\'?([^>]+)\'?>$/', $type, $matches)) {
-                    $property->setFormat((new \DateTime())->format($matches[1]));
+                    $property->setFormat($matches[1]);
                 }
                 $type = ModelPropertySchema::TYPE_STRING;
             }
@@ -68,17 +69,18 @@ class JMSSerializerDescriber implements ModelDescriberInterface
             //common types to SwaggerTypes
             switch ($type) {
                 case 'int':
-                    $type = 'integer';
+                    $type = ModelPropertySchema::TYPE_INTEGER;
+                    break;
+                case 'bool':
+                    $type = ModelPropertySchema::TYPE_BOOLEAN;
                     break;
                 case 'double':
-                case 'float':
-                    $type = 'string';
+                    $type = ModelPropertySchema::TYPE_NUMBER;
                     $property->setFormat(ModelPropertySchema::FORMAT_DOUBLE);
                     break;
-                case 'DateTime':
-                case 'DateTimeImmutable':
-                    $type = ModelPropertySchema::TYPE_STRING;
-                    $property->setFormat(ModelPropertySchema::FORMAT_DATETIME);
+                case 'float':
+                    $type = ModelPropertySchema::TYPE_NUMBER;
+                    $property->setFormat(ModelPropertySchema::FORMAT_FLOAT);
                     break;
             }
 
@@ -100,66 +102,68 @@ class JMSSerializerDescriber implements ModelDescriberInterface
 
     protected function getGroups($property)
     {
+        $groups = [];
         if ($property instanceof \Reflector) {
-            /** @var Groups $groups */
-            if ($groups = AnnotationReader::getAnnotationFor($property, Groups::class)) {
-                return $groups->groups ?: [];
+            if ($annotation = AnnotationReader::getAnnotationFor($property, Groups::class)) {
+                $groups = $annotation->groups ?? [];
             }
         }
 
         if ($property instanceof VirtualPropertyMetadata) {
-            return $property->groups ?: [];
+            $groups = $property->groups ?? [];
         }
 
-        return [];
+        return $groups;
     }
 
     protected function getName($property)
     {
-        if ($property instanceof \Reflector) {
+        $name = '';
+        if ($property instanceof \ReflectionProperty || $property instanceof \ReflectionMethod) {
             /** @var SerializedName $serializedName */
             if ($serializedName = AnnotationReader::getAnnotationFor($property, SerializedName::class)) {
-                return $serializedName->name;
+                $name = $serializedName->name;
+            } else {
+                $name = SerializerReader::getSerializedName($property);
             }
-
-            return SerializerReader::getSerializedName($property);
         }
 
         if ($property instanceof VirtualPropertyMetadata) {
-            return $property->serializedName;
+            $name = $property->serializedName;
         }
 
-        return $property->name;
+        return $name;
     }
 
     protected function getSerializerType($property)
     {
+        $type = null;
         if ($property instanceof \Reflector) {
-            /** @var Type $type */
-            if ($type = AnnotationReader::getAnnotationFor($property, Type::class)) {
-                return $type->name;
+            if ($annotation = AnnotationReader::getAnnotationFor($property, Type::class)) {
+                $type = $annotation->name;
             }
         }
 
         if ($property instanceof VirtualPropertyMetadata) {
-            return $property->type ?: 'string';
+            $type = $property->type ?: 'string';
         }
 
-        return null;
+        return $type;
     }
 
     protected function isReadOnly($property)
     {
+        $readOnly = false;
         if ($property instanceof \Reflector) {
             if (AnnotationReader::getAnnotationFor($property, ReadOnly::class)) {
-                return true;
+                $readOnly = true;
             }
         }
 
         if ($property instanceof VirtualPropertyMetadata) {
-            return $property->readOnly;
+            $readOnly = $property->readOnly;
         }
 
-        return false;
+        return $readOnly;
     }
 }
