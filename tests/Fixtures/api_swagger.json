@@ -1,0 +1,115 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "API Example",
+        "version": "v1.0",
+        "description": "Some API Example"
+    },
+    "host": "example.com",
+    "basePath": "\/v1",
+    "schemes": [],
+    "consumes": [
+        "application\/json"
+    ],
+    "produces": [
+        "application\/json"
+    ],
+    "paths": {
+        "\/users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "in": "query",
+                        "required": false,
+                        "description": "Term to search users",
+                        "name": "q",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of users",
+                        "schema": {
+                            "items": {
+                                "properties": {
+                                    "username": {
+                                        "description": "username",
+                                        "type": "string",
+                                        "example": "admin"
+                                    },
+                                    "firstName": {
+                                        "description": "First name",
+                                        "type": "string",
+                                        "example": "Jhon"
+                                    },
+                                    "lastName": {
+                                        "description": "Last name",
+                                        "type": "string",
+                                        "example": "Smith"
+                                    }
+                                }
+                            },
+                            "type": "array"
+                        }
+                    }
+                },
+                "description": "Get list of users"
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "required": true,
+                        "name": "body",
+                        "schema": {
+                            "properties": {
+                                "username": {
+                                    "description": "username",
+                                    "type": "string",
+                                    "example": "admin"
+                                },
+                                "firstName": {
+                                    "description": "First name",
+                                    "type": "string",
+                                    "example": "Jhon"
+                                },
+                                "lastName": {
+                                    "description": "Last name",
+                                    "type": "string",
+                                    "example": "Smith"
+                                }
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "User created successfully"
+                    },
+                    "400": {
+                        "description": "Error creating user",
+                        "schema": {
+                            "properties": {
+                                "code": {
+                                    "type": "number",
+                                    "example": 200
+                                },
+                                "error": {
+                                    "type": "string",
+                                    "example": "username is required"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Create user"
+            }
+        }
+    }
+}

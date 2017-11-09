@@ -11,7 +11,12 @@
 
 namespace Ynlo\RestfulPlatformBundle\Swagger;
 
+use JMS\Serializer\Accessor\DefaultAccessorStrategy;
+use JMS\Serializer\Accessor\ExpressionAccessorStrategy;
 use JMS\Serializer\Expression\ExpressionEvaluator;
+use JMS\Serializer\JsonSerializationVisitor;
+use JMS\Serializer\Naming\CamelCaseNamingStrategy;
+use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerBuilder;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
@@ -21,22 +26,35 @@ use Ynlo\RestfulPlatformBundle\Swagger\Specification\Common\SpecDecorator;
 class SwaggerGenerator
 {
     /**
-     * @param array  $specs  array of specifications
-     * @param string $format desired output format, json or yaml
+     * @param array  $specs   array of specifications
+     * @param string $format  desired output format, json or yaml
+     * @param mixed  $options options to pass to the serializer visitor, e.i. JSON_PRETTY_PRINT
      *
      * @return string
      */
-    public function generate(array $specs, $format = 'json')
+    public function generate(array $specs, $format = 'json', $options = null)
     {
         $swaggerObject = $this->specsToObject($specs);
 
-        $serializer = SerializerBuilder::create()
-                                       ->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()))
-                                       ->build();
+        $builder = SerializerBuilder::create();
+        $expEvaluator = new ExpressionEvaluator(new ExpressionLanguage());
+        $builder->setExpressionEvaluator(new ExpressionEvaluator(new ExpressionLanguage()));
 
-        $context = SerializationContext::create()->setSerializeNull(false);
+        if ($format === 'json') {
+            $namingStrategy = new SerializedNameAnnotationStrategy(new CamelCaseNamingStrategy());
+            $visitor = new JsonSerializationVisitor($namingStrategy, new ExpressionAccessorStrategy($expEvaluator, new DefaultAccessorStrategy()));
+            $visitor->setOptions($options);
+            $builder->setSerializationVisitor($format, $visitor);
+        }
+
+        $serializer = $builder->build();
+
+        $context = SerializationContext::create();
+        $context->setSerializeNull(false);
 
         return $serializer->serialize($swaggerObject, $format, $context);
+
+
     }
 
     /**
