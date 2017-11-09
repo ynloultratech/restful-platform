@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Specification\Schema\Model\Describer;
+namespace Tests\Swagger\Specification\Schema\Model\Describer;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use JMS\Serializer\Metadata\VirtualPropertyMetadata;
