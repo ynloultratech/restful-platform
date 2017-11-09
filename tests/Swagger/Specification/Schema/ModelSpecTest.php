@@ -35,7 +35,7 @@ class ModelSpecTest extends TestCase
 
     public function testDecorator()
     {
-        $decorator = (new ModelSpec(User::class))->getDecorator();
+        $decorator = (new ModelSpec(User::class, [], 2))->getDecorator();
         $schemaAware = new class implements SchemaAwareInterface
         {
             use SchemaAwareTrait;
@@ -82,7 +82,7 @@ class ModelSpecTest extends TestCase
 
     public function testDecoratorWithGroups()
     {
-        $decorator = (new ModelSpec(User::class, ['public']))->getDecorator();
+        $decorator = (new ModelSpec(User::class, ['public'], 2))->getDecorator();
         $schemaAware = new class implements SchemaAwareInterface
         {
             use SchemaAwareTrait;
