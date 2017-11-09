@@ -24,19 +24,23 @@ class ModelSpec implements SpecDecorator
 
     protected $groups = [];
 
+    protected $deep;
+
     /**
      * @var array|ModelDescriberInterface[]
      */
     protected static $modelDescribers = [];
 
     /**
-     * @param string $class
-     * @param array  $groups
+     * @param string  $class
+     * @param array   $groups
+     * @param integer $deep
      */
-    public function __construct($class, array $groups = [])
+    public function __construct($class, array $groups = [], int $deep = 3)
     {
         $this->class = $class;
         $this->groups = $groups;
+        $this->deep = $deep;
     }
 
     /**
@@ -89,7 +93,11 @@ class ModelSpec implements SpecDecorator
 
             //simple schema inside property, child object
             if (class_exists($modelProp->getType()) && preg_match('/\w+\\\/', $modelProp->getType())) {
-                $model = SWSchema::model($modelProp->getType(), $this->groups);
+                if (!$this->deep) {
+                    continue;
+                }
+
+                $model = SWSchema::model($modelProp->getType(), $this->groups, $this->deep - 1);
                 $propsSpecs[] = SWSchema::property($modelProp->getName(), $model, null, [$addSpecs]);
                 $propsSpecs[] = SWSchema::type('object');
             } else {
@@ -99,7 +107,10 @@ class ModelSpec implements SpecDecorator
 
                     $model = null;
                     if (class_exists($itemType)) {
-                        $model = SWSchema::model($itemType, $this->groups);
+                        if (!$this->deep) {
+                            continue;
+                        }
+                        $model = SWSchema::model($itemType, $this->groups, $this->deep - 1);
                     }
 
                     //for indexed array of items e.g. "key" => $value

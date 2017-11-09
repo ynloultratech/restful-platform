@@ -29,6 +29,7 @@ class SerializerReaderTest extends TestCase
                 'admin',
                 'groups',
                 'manager',
+                'parents',
                 'tags',
                 'settings',
             ],

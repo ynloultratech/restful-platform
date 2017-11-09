@@ -27,14 +27,15 @@ use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\TypeSpec;
 class SWSchema
 {
     /**
-     * @param string $class
-     * @param array  $groups
+     * @param string  $class
+     * @param array   $groups
+     * @param integer $deep
      *
      * @return ModelSpec
      */
-    public static function model($class, array $groups = [])
+    public static function model($class, array $groups = [], int $deep = 3)
     {
-        return new ModelSpec($class, $groups);
+        return new ModelSpec($class, $groups, $deep);
     }
 
     /**

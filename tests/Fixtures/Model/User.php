@@ -3,6 +3,8 @@
 namespace Tests\Fixtures\Model;
 
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
+use Ynlo\RestfulPlatformBundle\Annotation\Example;
 
 /**
  * @Serializer\ExclusionPolicy("all")
@@ -34,7 +36,10 @@ class User
      * @Serializer\Expose()
      * @Serializer\SerializedName("username")
      * @Serializer\Type("string")
+     * @Serializer\ReadOnly()
      * @Serializer\Groups({"private"})
+     *
+     * @Example("admin")
      */
     protected $username;
 
@@ -44,6 +49,10 @@ class User
      * @Serializer\Expose()
      * @Serializer\Type("string")
      * @Serializer\Groups({"public"})
+     *
+     * @Assert\NotBlank()
+     *
+     * @Example("John")
      */
     protected $firstName;
 
@@ -52,8 +61,11 @@ class User
      *
      * @Serializer\Expose()
      * @Serializer\Type("string")
-     *
      * @Serializer\Groups({"public"})
+     *
+     * @Assert\NotBlank()
+     *
+     * @Example("Smith")
      */
     protected $lastName;
 
@@ -72,6 +84,14 @@ class User
      * @Serializer\Type("ArrayCollection<Tests\Fixtures\Model\Group>")
      */
     protected $groups = [];
+
+    /**
+     * @var array|User
+     *
+     * @Serializer\Expose()
+     * @Serializer\Type("ArrayCollection<string,Tests\Fixtures\Model\User>")
+     */
+    protected $parents = [];
 
     /**
      * @var array|string[]

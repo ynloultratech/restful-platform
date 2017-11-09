@@ -34,7 +34,7 @@ class SwaggerGeneratorTest extends TestCase
                     null,
                     [
                         SWSchema::description('First name'),
-                        SWSchema::example('Jhon'),
+                        SWSchema::example('John'),
                     ]
                 ),
                 SWSchema::property(

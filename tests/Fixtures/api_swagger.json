@@ -43,7 +43,7 @@
                                     "firstName": {
                                         "description": "First name",
                                         "type": "string",
-                                        "example": "Jhon"
+                                        "example": "John"
                                     },
                                     "lastName": {
                                         "description": "Last name",
@@ -77,7 +77,7 @@
                                 "firstName": {
                                     "description": "First name",
                                     "type": "string",
-                                    "example": "Jhon"
+                                    "example": "John"
                                 },
                                 "lastName": {
                                     "description": "Last name",
