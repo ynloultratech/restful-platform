@@ -6,7 +6,7 @@ use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\ReferenceAwareInterf
 use Ynlo\RestfulPlatformBundle\Swagger\Specification\Schema\ReferenceAwareTrait;
 use PHPUnit\Framework\TestCase;
 
-class ReferenceAwareTraitTests extends TestCase
+class ReferenceAwareTraitTest extends TestCase
 {
     public function testDecorator()
     {
