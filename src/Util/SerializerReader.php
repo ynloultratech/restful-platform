@@ -249,7 +249,6 @@ class SerializerReader
      *
      * @throws \ReflectionException
      * @throws \InvalidArgumentException
-     * @throws \LogicException
      */
     public static function getSerializedPropertyPath($root, $path): string
     {
@@ -276,10 +275,7 @@ class SerializerReader
             $type = self::getType($refProperty);
             if (in_array($type->getBuiltinType(), ['object', 'array'], true)) {
                 if ($type->isCollection()) {
-                    if (!$type->getCollectionValueType()) {
-                        throw new \LogicException('Undefined collection value type');
-                    }
-                    $contextClass = $type->getCollectionValueType()->getClassName();
+                    $contextClass = $type->getCollectionValueType() ? $type->getCollectionValueType()->getClassName() : null;
                     if (!$contextClass) {
                         break;
                     }
