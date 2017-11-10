@@ -29,8 +29,6 @@ class CRUDRestApi extends AbstractRestApi
      */
     public function listOperation()
     {
-
-
         $exampleLinks = [
             'self' => [
                 'href' => $this->generateUrl('list', ['page' => 1, 'limit' => 30]),
@@ -101,8 +99,7 @@ class CRUDRestApi extends AbstractRestApi
             SWResponseHelper::success(
                 [
                     SWResponse::model($this->getResourceClass(), $this->getCRUDSerializerGroups('create', true)),
-                ]
-                ,
+                ],
                 Response::HTTP_CREATED
             ),
             SWResponseHelper::validationError(),
@@ -121,10 +118,8 @@ class CRUDRestApi extends AbstractRestApi
                     SWParameter::description($this->getLabel().' identifier'),
                 ]
             ),
-            SWOperation::response(
-                200,
+            SWResponseHelper::success(
                 [
-                    SWResponse::description($this->getLabel()),
                     SWResponse::model($this->getResourceClass(), $this->getCRUDSerializerGroups('update', true)),
                 ]
             ),

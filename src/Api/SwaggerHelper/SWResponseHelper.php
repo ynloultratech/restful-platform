@@ -77,11 +77,7 @@ class SWResponseHelper
                             null,
                             [
                                 SWSchema::additionalProperties('string'),
-                                SWSchema::example(
-                                    [
-                                        $exampleLinks ?: ['href' => 'url'],
-                                    ]
-                                ),
+                                SWSchema::example($exampleLinks ?: ['href' => 'url']),
                             ]
                         ),
                         SWSchema::property(
