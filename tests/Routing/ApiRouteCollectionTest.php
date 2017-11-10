@@ -94,6 +94,16 @@ class ApiRouteCollectionTest extends TestCase
         self::assertTrue($this->collection->has('list'));
         $this->collection->remove('list');
         self::assertFalse($this->collection->has('list'));
+
+        //using array
+        $this->collection->add(Request::METHOD_GET, 'list');
+        $this->collection->add(Request::METHOD_GET, 'get');
+
+        self::assertTrue($this->collection->has('list'));
+        self::assertTrue($this->collection->has('get'));
+        $this->collection->remove(['list', 'get']);
+        self::assertFalse($this->collection->has('list'));
+        self::assertFalse($this->collection->has('get'));
     }
 
     public function testClearExcept()

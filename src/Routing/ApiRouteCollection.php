@@ -129,14 +129,14 @@ class ApiRouteCollection
     }
 
     /**
-     * @param string[]|string $action
+     * @param string|string[] $action
      *
      * @return ApiRouteCollection
      */
     public function remove($action)
     {
         if (is_array($action)) {
-            foreach ($action as $act) {
+            foreach ((array) $action as $act) {
                 $this->remove($act);
             }
 
