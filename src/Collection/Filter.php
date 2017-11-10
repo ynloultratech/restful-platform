@@ -67,10 +67,14 @@ class Filter
 
     /**
      * @param string $parameter
+     *
+     * @return Filter
      */
-    public function setParameter(string $parameter)
+    public function setParameter(string $parameter): Filter
     {
         $this->parameter = $parameter;
+
+        return $this;
     }
 
     /**
@@ -83,10 +87,14 @@ class Filter
 
     /**
      * @param string $field
+     *
+     * @return Filter
      */
-    public function setField(string $field)
+    public function setField(string $field): Filter
     {
         $this->field = $field;
+
+        return $this;
     }
 
     /**
@@ -99,10 +107,14 @@ class Filter
 
     /**
      * @param null|string $type
+     *
+     * @return Filter
      */
-    public function setType($type)
+    public function setType($type): Filter
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -115,10 +127,14 @@ class Filter
 
     /**
      * @param null|string $description
+     *
+     * @return Filter
      */
-    public function setDescription($description)
+    public function setDescription($description): Filter
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -131,9 +147,13 @@ class Filter
 
     /**
      * @param null|string $example
+     *
+     * @return Filter
      */
-    public function setExample($example)
+    public function setExample($example): Filter
     {
         $this->example = $example;
+
+        return $this;
     }
 }
