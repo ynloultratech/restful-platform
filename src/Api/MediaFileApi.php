@@ -85,7 +85,7 @@ For example, you'll still need to pass your authentication to be able to upload 
 
 ### Example:
 
-    POST https://...$path?name=foo.zip
+    POST https://...$path/foo.zip?label=Foo
 <br>
 The raw file is uploaded to the server. 
 Set the content type and length appropriately in the header, and the asset's name and label in URI query parameters.
