@@ -4,10 +4,13 @@ namespace Tests\Fixtures\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\Validator\Constraints as Assert;
+use Ynlo\RestfulPlatformBundle\Annotation\DeserializerObjectConstructor;
 use Ynlo\RestfulPlatformBundle\Annotation\Example;
 
 /**
  * @Serializer\ExclusionPolicy("all")
+ *
+ * @DeserializerObjectConstructor("user_constructor")
  *
  * @Serializer\AccessorOrder("custom", custom={
  *              "firstName",

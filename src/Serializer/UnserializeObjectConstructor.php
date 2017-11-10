@@ -19,6 +19,7 @@ use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Ynlo\RestfulPlatformBundle\Annotation\DeserializerObjectConstructor;
+use Ynlo\RestfulPlatformBundle\Util\AnnotationReader;
 
 /**
  * This Serializer Constructor is based on DoctrineObjectConstructor
@@ -50,14 +51,23 @@ class UnserializeObjectConstructor implements ObjectConstructorInterface, Contai
     public function construct(VisitorInterface $visitor, ClassMetadata $metadata, $data, array $type, DeserializationContext $context)
     {
         /** @var  DeserializerObjectConstructor $desConsAnnotation */
-        $desConsAnnotation = $this->container->get('annotations.reader')->getClassAnnotation($metadata->reflection, DeserializerObjectConstructor::class);
+        $desConsAnnotation = AnnotationReader::getAnnotationFor(
+            $metadata->reflection,
+            DeserializerObjectConstructor::class
+        );
 
         if ($desConsAnnotation && $desConsAnnotation->service) {
             $desCons = $this->container->get($desConsAnnotation->service);
             if ($desCons instanceof ObjectConstructorInterface) {
                 return $desCons->construct($visitor, $metadata, $data, $type, $context);
             }
-            throw new \RuntimeException(sprintf('Object constructor for %s should implements %s', $metadata->name, ObjectConstructorInterface::class));
+            throw new \RuntimeException(
+                sprintf(
+                    'Object constructor for %s should implements %s',
+                    $metadata->name,
+                    ObjectConstructorInterface::class
+                )
+            );
         }
 
         // Locate possible ObjectManager
