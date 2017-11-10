@@ -29,8 +29,13 @@ class RestfulPlatformExtension extends Extension
 
         $container->setParameter('restful_platform.config', $config);
 
-        $mediaServer = @$config['media_server'] ?: [];
+        $mediaServer = $config['media_server'] ?? [];
         $container->setParameter('restful_platform.config.media_server', $mediaServer);
+
+        $container->setParameter(
+            'restful_platform.exception_controller',
+            'restful_platform.exception_controller:showAction'
+        );
 
         if (!$mediaServer || empty($mediaServer)) {
             $container->removeDefinition('restful_platform.media_file_api');
@@ -38,12 +43,11 @@ class RestfulPlatformExtension extends Extension
             $container->removeDefinition('restful_platform.media_storage.local');
         }
 
-        $container->setParameter('restful_platform.exception_controller', 'restful_platform.exception_controller:showAction');
-
         $configDir = __DIR__.'/../Resources/config';
         $loader = new YamlFileLoader($container, new FileLocator($configDir));
         $loader->load('services.yml');
 
+        //in production does not clear cache using request events
         if (!$container->getParameter('kernel.debug')) {
             $container->getDefinition('restful_platform.cache_warmer')->clearTag('kernel.event_subscriber');
             $container->getDefinition('restful_platform.media_server.cache_warmer')->clearTag('kernel.event_subscriber');
