@@ -11,7 +11,6 @@
 
 namespace Ynlo\RestfulPlatformBundle\Error;
 
-use Doctrine\Common\Util\Inflector;
 use JMS\Serializer\Annotation as Serializer;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\ConstraintViolation;
@@ -66,7 +65,12 @@ class ValidationError extends Error
             $error = new ValidationPropertyError();
             $error->setMessage($violation->getMessage());
             try {
-                $error->setProperty(SerializerReader::getSerializedPropertyPath($violation->getRoot(), $violation->getPropertyPath()));
+                $error->setProperty(
+                    SerializerReader::getSerializedPropertyPath(
+                        $violation->getRoot(),
+                        $violation->getPropertyPath()
+                    )
+                );
             } catch (\Exception $e) {
                 $error->setProperty($violation->getPropertyPath());
             }
@@ -75,5 +79,13 @@ class ValidationError extends Error
 
             $this->errors[] = $error;
         }
+    }
+
+    /**
+     * @return ValidationPropertyError[]
+     */
+    public function getErrors(): array
+    {
+        return $this->errors;
     }
 }
