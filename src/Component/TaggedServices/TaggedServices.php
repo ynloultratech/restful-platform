@@ -40,10 +40,14 @@ class TaggedServices
      * @param string $id
      * @param string $tagName
      * @param array  $tagAttributes
+     *
+     * @return TaggedServices
      */
-    public function addSpecification($id, $tagName, array $tagAttributes = [])
+    public function addSpecification($id, $tagName, array $tagAttributes = []): TaggedServices
     {
         $this->servicesByTags[$tagName][] = new TagSpecification($id, $tagName, $tagAttributes, $this->container);
+
+        return $this;
     }
 
     /**

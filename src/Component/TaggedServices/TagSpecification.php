@@ -46,7 +46,7 @@ class TagSpecification
      * @param array              $attributes
      * @param ContainerInterface $container
      */
-    public function __construct($id, $name, array $attributes, ContainerInterface $container = null)
+    public function __construct($id, $name, array $attributes = [], ContainerInterface $container = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -57,7 +57,7 @@ class TagSpecification
     /**
      * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
@@ -65,7 +65,7 @@ class TagSpecification
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -73,7 +73,7 @@ class TagSpecification
     /**
      * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
