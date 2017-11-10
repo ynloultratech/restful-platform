@@ -573,7 +573,7 @@ abstract class AbstractRestApi implements RestApiInterface
      */
     protected function loadSubjectFromRequest(Request $request)
     {
-        if ($data = $request->getContent()) {
+        if (($data = $request->getContent()) && is_string($data)) {
             $routeName = $request->get('_route');
             list($class, $groups) = $this->getApiSpecification()->getRequestBodyClassAndGroups($routeName);
             if ($class) {
