@@ -25,7 +25,6 @@ use Ynlo\RestfulPlatformBundle\Api\Extension\ApiExtensionInterface;
 use Ynlo\RestfulPlatformBundle\Controller\RestApiController;
 use Ynlo\RestfulPlatformBundle\Exception\ApiError;
 use Ynlo\RestfulPlatformBundle\Routing\ApiRouteCollection;
-use Ynlo\RestfulPlatformBundle\Swagger\Model\Operation;
 
 abstract class AbstractRestApi implements RestApiInterface
 {
@@ -183,74 +182,94 @@ abstract class AbstractRestApi implements RestApiInterface
 
     /**
      * @param string $resourceClass
+     *
+     * @return AbstractRestApi
      */
-    public function setResourceClass(string $resourceClass)
+    public function setResourceClass(string $resourceClass): AbstractRestApi
     {
         $this->resourceClass = $resourceClass;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getLabel()
+    public function getLabel(): string
     {
         return $this->label;
     }
 
     /**
      * @param string $label
+     *
+     * @return AbstractRestApi
      */
-    public function setLabel(string $label)
+    public function setLabel(string $label): AbstractRestApi
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBaseControllerName()
+    public function getBaseControllerName(): string
     {
         return $this->baseControllerName;
     }
 
     /**
      * @param string $baseControllerName
+     *
+     * @return AbstractRestApi
      */
-    public function setBaseControllerName(string $baseControllerName)
+    public function setBaseControllerName(string $baseControllerName): AbstractRestApi
     {
         $this->baseControllerName = $baseControllerName;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBaseRouteName()
+    public function getBaseRouteName(): string
     {
         return $this->baseRouteName;
     }
 
     /**
      * @param string $baseRouteName
+     *
+     * @return AbstractRestApi
      */
-    public function setBaseRouteName(string $baseRouteName)
+    public function setBaseRouteName(string $baseRouteName): AbstractRestApi
     {
         $this->baseRouteName = $baseRouteName;
+
+        return $this;
     }
 
     /**
      * @return string
      */
-    public function getBaseRoutePattern()
+    public function getBaseRoutePattern(): string
     {
         return $this->baseRoutePattern;
     }
 
     /**
      * @param string $baseRoutePattern
+     *
+     * @return AbstractRestApi
      */
-    public function setBaseRoutePattern(string $baseRoutePattern)
+    public function setBaseRoutePattern(string $baseRoutePattern): AbstractRestApi
     {
         $this->baseRoutePattern = $baseRoutePattern;
+
+        return $this;
     }
 
     /**
@@ -287,10 +306,14 @@ abstract class AbstractRestApi implements RestApiInterface
 
     /**
      * @param object $subject
+     *
+     * @return AbstractRestApi
      */
-    public function setSubject($subject)
+    public function setSubject($subject): AbstractRestApi
     {
         $this->subject = $subject;
+
+        return $this;
     }
 
     /**
@@ -304,10 +327,12 @@ abstract class AbstractRestApi implements RestApiInterface
     /**
      * @inheritDoc
      */
-    public function setRequest(Request $request)
+    public function setRequest(Request $request): AbstractRestApi
     {
         $this->request = $request;
         $this->loadSubjectFromRequest($request);
+
+        return $this;
     }
 
     /**
@@ -320,7 +345,7 @@ abstract class AbstractRestApi implements RestApiInterface
         }
 
         if (!$this->request) {
-            $this->request = new Request();
+            $this->request = Request::createFromGlobals();
         }
 
         return $this->request;
@@ -367,7 +392,6 @@ abstract class AbstractRestApi implements RestApiInterface
 
         $this->routes = new ApiRouteCollection($this);
 
-
         $this->configureRoutes($this->routes);
 
         return $this->routes;
@@ -389,7 +413,7 @@ abstract class AbstractRestApi implements RestApiInterface
         $repo = $this->getRepository();
         if ($repo instanceof EntityRepository) {
             $query = $repo->createQueryBuilder('o');
-            foreach ($this->extensions as $extension) {
+            foreach ($this->getExtensions() as $extension) {
                 $extension->configureQuery($this, $query);
             }
 
@@ -404,14 +428,15 @@ abstract class AbstractRestApi implements RestApiInterface
      */
     public function update($object)
     {
-        foreach ($this->extensions as $extension) {
-            $extension->preUpdate($this, $this->subject);
+        $this->subject = $object;
+        foreach ($this->getExtensions() as $extension) {
+            $extension->preUpdate($this, $object);
         }
         $this->preUpdate($object);
         $this->getManager()->flush($object);
         $this->getManager()->refresh($object);
-        foreach ($this->extensions as $extension) {
-            $extension->postUpdate($this, $this->subject);
+        foreach ($this->getExtensions() as $extension) {
+            $extension->postUpdate($this, $object);
         }
         $this->postUpdate($object);
     }
@@ -421,15 +446,16 @@ abstract class AbstractRestApi implements RestApiInterface
      */
     public function create($object)
     {
-        foreach ($this->extensions as $extension) {
-            $extension->prePersist($this, $this->subject);
+        $this->subject = $object;
+        foreach ($this->getExtensions() as $extension) {
+            $extension->prePersist($this, $object);
         }
         $this->prePersist($object);
         $this->getManager()->persist($object);
         $this->getManager()->flush($object);
         $this->getManager()->refresh($object);
-        foreach ($this->extensions as $extension) {
-            $extension->postPersist($this, $this->subject);
+        foreach ($this->getExtensions() as $extension) {
+            $extension->postPersist($this, $object);
         }
         $this->postPersist($object);
     }
@@ -439,14 +465,15 @@ abstract class AbstractRestApi implements RestApiInterface
      */
     public function remove($object)
     {
-        foreach ($this->extensions as $extension) {
-            $extension->preRemove($this, $this->subject);
+        $this->subject = $object;
+        foreach ($this->getExtensions() as $extension) {
+            $extension->preRemove($this, $object);
         }
         $this->preRemove($object);
         $this->getManager()->remove($object);
         $this->getManager()->flush($object);
-        foreach ($this->extensions as $extension) {
-            $extension->postRemove($this, $this->subject);
+        foreach ($this->getExtensions() as $extension) {
+            $extension->postRemove($this, $object);
         }
         $this->postRemove($object);
     }
@@ -550,7 +577,6 @@ abstract class AbstractRestApi implements RestApiInterface
             $routeName = $request->get('_route');
             list($class, $groups) = $this->getApiSpecification()->getRequestBodyClassAndGroups($routeName);
             if ($class) {
-
                 //if the `id` is not present in the body, given in url: /company/1
                 //the serializer doctrineConstructor can`t find the object
                 //to avoid this, manually set the id in the json before deserialize
@@ -569,7 +595,10 @@ abstract class AbstractRestApi implements RestApiInterface
                 try {
                     $this->subject = $this->deserialize($data, $class, 'json', $context);
                 } catch (\Exception $exception) {
-                    $this->container->get('logger')->error($exception->getMessage(), $exception->getTrace());
+                    if ($this->container->has('logger')) {
+                        $this->container->get('logger')->error($exception->getMessage(), $exception->getTrace());
+                    }
+
                     if (strpos($exception->getMessage(), 'syntax error')) {
                         throw ApiError::badRequest(400, $exception->getMessage());
                     }
@@ -582,7 +611,7 @@ abstract class AbstractRestApi implements RestApiInterface
         }
 
         if ($this->subject) {
-            foreach ($this->extensions as $extension) {
+            foreach ($this->getExtensions() as $extension) {
                 $extension->alterObject($this, $this->subject);
             }
         }
@@ -610,16 +639,6 @@ abstract class AbstractRestApi implements RestApiInterface
     }
 
     /**
-     * @return Operation
-     */
-    protected function getCurrentOperationSpecification()
-    {
-        $routeName = $this->getRequest()->get('_route');
-
-        return $this->getApiSpecification()->getOperation($routeName);
-    }
-
-    /**
      * @inheritDoc
      */
     public function getExtensions()
@@ -632,7 +651,7 @@ abstract class AbstractRestApi implements RestApiInterface
      */
     public function addExtension(ApiExtensionInterface $extension)
     {
-        if (!in_array($extension, $this->extensions)) {
+        if (!in_array($extension, $this->getExtensions())) {
             $this->extensions[] = $extension;
         }
 
