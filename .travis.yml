@@ -20,11 +20,13 @@ install:
 
 script:
   - mkdir -p build/logs
-  - php bin/phpunit -c phpunit.xml --coverage-clover build/logs/clover.xml
+  - php bin/phpunit -c phpunit.xml --coverage-text --coverage-clover=${clover=build/logs/clover.xml}
 
-after_script:
+after_success:
  - composer require satooshi/php-coveralls
  - php bin/coveralls
+ - wget https://scrutinizer-ci.com/ocular.phar
+ - php ocular.phar code-coverage:upload --format=php-clover "$clover"
 
 notifications:
   email:
