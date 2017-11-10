@@ -30,10 +30,10 @@ class HateoasRouteGenerator implements UrlGeneratorInterface
     /**
      * HateoasRouteGenerator constructor.
      *
-     * @param Router $router
-     * @param        $requestStack
+     * @param Router       $router
+     * @param RequestStack $requestStack
      */
-    public function __construct(Router $router, $requestStack)
+    public function __construct(Router $router, RequestStack $requestStack)
     {
         $this->router = $router;
         $this->requestStack = $requestStack;
@@ -50,5 +50,4 @@ class HateoasRouteGenerator implements UrlGeneratorInterface
 
         return $this->router->generate($name, $parameters, $absolute);
     }
-
 }
