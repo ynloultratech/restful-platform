@@ -6,6 +6,7 @@
 [![Latest Stable Version](https://poser.pugx.org/ynloultratech/restful-platform/version)](https://packagist.org/packages/ynloultratech/restful-platform)
 [![Latest Unstable Version](https://poser.pugx.org/ynloultratech/restful-platform/v/unstable)](//packagist.org/packages/ynloultratech/restful-platform)
 [![License](https://poser.pugx.org/ynloultratech/restful-platform/license)](https://packagist.org/packages/ynloultratech/restful-platform)
+[![OAS2](https://img.shields.io/badge/OAS-2.0-blue.svg)](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md)
 
  Framework _(Symfony Bundle)_ designed to easily create API projects based on [OpenAPI Specification (OAS)](https://swagger.io/)
 
