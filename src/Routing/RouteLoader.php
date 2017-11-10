@@ -53,6 +53,8 @@ class RouteLoader extends Loader
             }
         }
 
+        $this->loaded = true;
+
         return $routes;
     }
 
