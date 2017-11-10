@@ -56,7 +56,7 @@ class LocalMediaStorageProvider extends AbstractMediaStorageProvider
     public function getDownloadUrl(MediaFileInterface $media)
     {
         if (!$this->config['private']) {
-            return $this->config['base_url'].$media->getUuid().'/'.$media->getName();
+            return rtrim($this->config['base_url'], '/').'/'.$media->getUuid().'/'.$media->getName();
         }
 
         $routeName = $this->config['route_name'];
@@ -161,7 +161,7 @@ class LocalMediaStorageProvider extends AbstractMediaStorageProvider
     public function createSignature(MediaFileInterface $media)
     {
         $maxAge = $this->config['signature_max_age'];
-        $time = (new \DateTime())->modify("+{$maxAge}Seconds");
+        $time = \DateTime::createFromFormat('U', time())->modify("+{$maxAge}Seconds");
         $data = [
             'uuid' => $media->getUuid(),
             'name' => $media->getName(),

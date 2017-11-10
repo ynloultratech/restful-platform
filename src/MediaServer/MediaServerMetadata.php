@@ -108,7 +108,11 @@ class MediaServerMetadata
             foreach ($properties as $property) {
                 $targetClass = $m->getAssociationTargetClass($property);
                 if (is_subclass_of($targetClass, MediaFileInterface::class, true)) {
-                    $annotation = AnnotationReader::getAnnotationFor($m->reflClass->getProperty($property), AttachMediaFile::class);
+
+                    $annotation = AnnotationReader::getAnnotationFor(
+                        $m->reflClass->getProperty($property),
+                        AttachMediaFile::class
+                    );
                     if (!$annotation) {
                         $annotation = new AttachMediaFile();
                     }
@@ -150,6 +154,6 @@ class MediaServerMetadata
 
     protected function saveCache()
     {
-     file_put_contents($this->cacheFileName(), serialize($this->managedEntities));
+        file_put_contents($this->cacheFileName(), serialize($this->managedEntities));
     }
 }

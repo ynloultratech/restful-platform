@@ -21,8 +21,6 @@ use Ynlo\RestfulPlatformBundle\Annotation\Example;
  */
 abstract class AbstractMediaFile implements MediaFileInterface
 {
-
-
     /**
      * @var string
      *
@@ -98,7 +96,7 @@ abstract class AbstractMediaFile implements MediaFileInterface
     /**
      * Size in bytes
      *
-     * @var string
+     * @var integer
      *
      * @ORM\Column(name="size", type="string", nullable=false)
      *
@@ -169,10 +167,10 @@ abstract class AbstractMediaFile implements MediaFileInterface
         $this->createdAt = new \DateTime();
         $this->updatedAt = new \DateTime();
 
-        $data = openssl_random_pseudo_bytes(16);
-        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);    // set version to 0100
-        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);    // set bits 6-7 to 10
-        $this->uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+        $random = random_bytes(32);
+        $random[6] = chr(ord($random[6]) & 0x0f | 0x40);    // set version to 0100
+        $random[8] = chr(ord($random[8]) & 0x3f | 0x80);    // set bits 6-7 to 10
+        $this->uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($random), 4));
     }
 
     /**
@@ -193,10 +191,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $uuid
+     *
+     * @return AbstractMediaFile
      */
-    public function setUuid(string $uuid)
+    public function setUuid(string $uuid): AbstractMediaFile
     {
         $this->uuid = $uuid;
+
+        return $this;
     }
 
     /**
@@ -209,10 +211,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $name
+     *
+     * @return AbstractMediaFile
      */
-    public function setName($name)
+    public function setName($name): AbstractMediaFile
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
@@ -225,10 +231,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $mimeType
+     *
+     * @return AbstractMediaFile
      */
-    public function setContentType($mimeType)
+    public function setContentType($mimeType): AbstractMediaFile
     {
         $this->contentType = $mimeType;
+
+        return $this;
     }
 
     /**
@@ -241,14 +251,18 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $label
+     *
+     * @return AbstractMediaFile
      */
-    public function setLabel($label)
+    public function setLabel($label): AbstractMediaFile
     {
         $this->label = $label;
+
+        return $this;
     }
 
     /**
-     * @return string
+     * @return integer
      */
     public function getSize()
     {
@@ -256,11 +270,13 @@ abstract class AbstractMediaFile implements MediaFileInterface
     }
 
     /**
-     * @param string $size
+     * @param integer $size
      */
-    public function setSize($size)
+    public function setSize($size): AbstractMediaFile
     {
         $this->size = $size;
+
+        return $this;
     }
 
     /**
@@ -273,10 +289,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param \DateTime $createdAt
+     *
+     * @return AbstractMediaFile
      */
-    public function setCreatedAt(\DateTime $createdAt)
+    public function setCreatedAt(\DateTime $createdAt): AbstractMediaFile
     {
         $this->createdAt = $createdAt;
+
+        return $this;
     }
 
     /**
@@ -289,10 +309,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param \DateTime $updatedAt
+     *
+     * @return AbstractMediaFile
      */
-    public function setUpdatedAt(\DateTime $updatedAt)
+    public function setUpdatedAt(\DateTime $updatedAt): AbstractMediaFile
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
     }
 
     /**
@@ -305,10 +329,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $downloadUrl
+     *
+     * @return AbstractMediaFile
      */
-    public function setDownloadUrl($downloadUrl)
+    public function setDownloadUrl($downloadUrl): AbstractMediaFile
     {
         $this->downloadUrl = $downloadUrl;
+
+        return $this;
     }
 
     /**
@@ -321,10 +349,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $status
+     *
+     * @return AbstractMediaFile
      */
-    public function setStatus(string $status)
+    public function setStatus(string $status): AbstractMediaFile
     {
         $this->status = $status;
+
+        return $this;
     }
 
     /**
@@ -345,7 +377,7 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     public function used()
     {
-       $this->setStatus(self::STATUS_IN_USE);
+        $this->setStatus(self::STATUS_IN_USE);
     }
 
     /**
@@ -358,10 +390,14 @@ abstract class AbstractMediaFile implements MediaFileInterface
 
     /**
      * @param string $storage
+     *
+     * @return AbstractMediaFile
      */
-    public function setStorage($storage)
+    public function setStorage($storage): AbstractMediaFile
     {
         $this->storage = $storage;
+
+        return $this;
     }
 
     /**
@@ -375,9 +411,9 @@ abstract class AbstractMediaFile implements MediaFileInterface
     /**
      * @param array $storageMeta
      *
-     * @return $this
+     * @return AbstractMediaFile
      */
-    public function setStorageMeta(array $storageMeta)
+    public function setStorageMeta(array $storageMeta): AbstractMediaFile
     {
         $this->storageMeta = $storageMeta;
 

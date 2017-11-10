@@ -49,7 +49,8 @@ class MediaStorageProviderPool
     /**
      * Get default provider for given storage id
      *
-     * @param string $storageId get storage provider with settings based on configuration defined un the media_server and storage name
+     * @param string $storageId get storage provider with settings
+     *                          based on configuration defined un the media_server and storage name
      *
      * @return MediaStorageProviderInterface|null
      */
