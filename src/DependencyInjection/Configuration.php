@@ -13,7 +13,6 @@
 namespace Ynlo\RestfulPlatformBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\NodeBuilder;
-use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -73,9 +72,12 @@ class Configuration implements ConfigurationInterface
 
         /** @var NodeBuilder $tags */
         $tags = $docNode->arrayNode('tags')
-                     ->info('A list of tags used by the specification with additional metadata. The order of the tags can be used to reflect on their order by the parsing tools')
-                     ->useAttributeAsKey('id')
-                     ->prototype('variable');
+                        ->info(
+                            'A list of tags used by the specification with additional metadata. 
+                        The order of the tags can be used to reflect on their order by the parsing tools'
+                        )
+                        ->useAttributeAsKey('id')
+                        ->prototype('variable');
     }
 
 
@@ -87,16 +89,22 @@ class Configuration implements ConfigurationInterface
 
         $mediaServer
             ->scalarNode('class')
-            ->info('Entity class to persist and get media files relations')->cannotBeEmpty()->end();
+            ->info('Entity class to persist and get media files relations')
+            ->cannotBeEmpty()
+            ->isRequired()
+            ->end();
 
         $mediaServer->scalarNode('path')
-                    ->defaultValue('/media')
+                    ->defaultValue('/assets')
                     ->cannotBeEmpty()
                     ->info('API end-point to interact with media objects, upload, get details, delete etc.');
 
         $mediaServer->variableNode('actions')
                     ->defaultValue(['get', 'create', 'update'])
-                    ->info('Allowed actions directly in the media file API end-point. Can be one or multiple of the following actions,"list", "get", "create","update", "delete"');
+                    ->info(
+                        'Allowed actions directly in the media file API end-point. 
+                    Can be one or multiple of the following actions,"list", "get", "create","update", "delete"'
+                    );
 
         $mediaServer->scalarNode('default_storage')->isRequired()->example('default');
 
@@ -110,16 +118,43 @@ class Configuration implements ConfigurationInterface
                                     ->children();
 
         //local storage
-        $localStorage = $mediaStorage->arrayNode(self::STORAGE_LOCAL)->info('Provide local storage capabilities, for public or private files')->children();
-        $localStorage->scalarNode('provider')->defaultValue('local');
-        $localStorage->booleanNode('private')->defaultFalse()->info('Mark this storage as private, otherwise is used as public storage');
-        $localStorage->scalarNode('dir_name')
-                     ->info('Absolute local path to store files, NOTE: should be a public accessible path for public assets, and non public accessible path for private assets')
-                     ->example('PRIVATE: "%kernel.project_dir%/media" or PUBLIC: "%kernel.project_dir%/web/media"');
-        $localStorage->scalarNode('base_url')->info('Absolute url to resolve PUBLIC files')->example('https://example.com/media/');
-        $localStorage->scalarNode('route_name')->defaultValue('restful_platform_get_media_file')->info('Name of the route to use to resolve PRIVATE assets, this route will be pre-signed with the configured `signature_parameter`');
-        $localStorage->scalarNode('signature_parameter')->defaultValue('_hash')->info('Name of the signature param to store the digital signature');
-        $localStorage->integerNode('signature_max_age')->defaultValue(3600)->min(1)->max(86400)->info('Age in seconds of each signature');
+        $localStorage = $mediaStorage
+            ->arrayNode(self::STORAGE_LOCAL)
+            ->info('Provide local storage capabilities, for public or private files')->children();
 
+        $localStorage->scalarNode('provider')->defaultValue('local');
+
+        $localStorage->booleanNode('private')
+                     ->defaultFalse()
+                     ->info('Mark this storage as private, otherwise is used as public storage');
+
+        $localStorage->scalarNode('dir_name')
+                     ->info(
+                         'Absolute local path to store files,
+                          NOTE: should be a public accessible path for public assets,
+                      and non public accessible path for private assets'
+                     )
+                     ->example('PRIVATE: "%kernel.project_dir%/media" or PUBLIC: "%kernel.project_dir%/web/media"');
+
+        $localStorage->scalarNode('base_url')
+                     ->info('Absolute url to resolve PUBLIC files')
+                     ->example('https://example.com/media/');
+
+        $localStorage->scalarNode('route_name')
+                     ->defaultValue('restful_platform_get_media_file')
+                     ->info(
+                         'Name of the route to use to resolve PRIVATE assets, 
+                     this route will be pre-signed with the configured `signature_parameter`'
+                     );
+
+        $localStorage->scalarNode('signature_parameter')
+                     ->defaultValue('_hash')
+                     ->info('Name of the signature param to store the digital signature');
+
+        $localStorage->integerNode('signature_max_age')
+                     ->defaultValue(3600)
+                     ->min(1)
+                     ->max(86400)
+                     ->info('Age in seconds of each signature');
     }
 }
