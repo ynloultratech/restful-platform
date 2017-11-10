@@ -125,7 +125,7 @@ class ApiRouteCollection
             return $this->elements[$routeName];
         }
 
-        throw new \InvalidArgumentException(sprintf('Element "%s" does not exist.', $action));
+        throw new \RuntimeException(sprintf('Route "%s" does not exist.', $action));
     }
 
     /**
@@ -197,15 +197,7 @@ class ApiRouteCollection
      */
     public function actionify($action)
     {
-        if (($pos = strrpos($action, '.')) !== false) {
-            $action = substr($action, $pos + 1);
-        }
-
-        // if this is a service rather than just a controller action, the suffix
-        // Action is not automatically appended to the method action
-        if (strpos($this->getBaseControllerName(), ':') === false) {
-            $action .= 'Action';
-        }
+        $action .= 'Action';
 
         return lcfirst(str_replace(' ', '', ucwords(strtr($action, '_-', '  '))));
     }
