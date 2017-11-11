@@ -14,10 +14,16 @@ namespace Ynlo\RestfulPlatformBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DocumentationController extends Controller
 {
-    public function docAction(Request $request)
+    /**
+     * @param Request $request
+     *
+     * @return Response
+     */
+    public function docAction(Request $request): Response
     {
         $config = $this->getParameter('restful_platform.config');
         $title = @$config['documentation']['info']['title'];
@@ -31,7 +37,10 @@ class DocumentationController extends Controller
         );
     }
 
-    public function docJsonAction()
+    /**
+     * @return JsonResponse
+     */
+    public function docJsonAction(): JsonResponse
     {
         $specification = $this->get('restful_platform.api_specification')->serialize();
 
