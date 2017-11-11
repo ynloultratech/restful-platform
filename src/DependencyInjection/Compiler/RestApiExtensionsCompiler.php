@@ -23,7 +23,6 @@ class RestApiExtensionsCompiler implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         $endpoints = $container->findTaggedServiceIds('restful_platform.rest_api');
-
         $extensions = $container->findTaggedServiceIds('restful_platform.rest_api_extension');
 
         foreach ($endpoints as $id => $tags) {

@@ -23,11 +23,11 @@ class RestApiPoolCompiler implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         // always first check if the primary service is defined
-        if (!$container->has('restful_platform.api_pool')) {
+        if (!$container->hasDefinition('restful_platform.api_pool')) {
             return;
         }
 
-        $definition = $container->findDefinition('restful_platform.api_pool');
+        $definition = $container->getDefinition('restful_platform.api_pool');
 
         $taggedServices = $container->findTaggedServiceIds('restful_platform.rest_api');
 

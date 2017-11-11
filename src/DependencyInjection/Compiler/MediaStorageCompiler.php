@@ -23,11 +23,11 @@ class MediaStorageCompiler implements CompilerPassInterface
     public function process(ContainerBuilder $container)
     {
         // always first check if the primary service is defined
-        if (!$container->has('restful_platform.media_storage_pool')) {
+        if (!$container->hasDefinition('restful_platform.media_storage_pool')) {
             return;
         }
 
-        $definition = $container->findDefinition('restful_platform.media_storage_pool');
+        $definition = $container->getDefinition('restful_platform.media_storage_pool');
 
         $taggedServices = $container->findTaggedServiceIds('restful_platform.media_storage');
 
