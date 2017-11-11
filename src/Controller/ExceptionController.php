@@ -40,7 +40,7 @@ class ExceptionController extends Controller
             $message = $exception->getMessage();
             $statusCode = $exception->getStatusCode();
             if (!$message) {
-                $message = array_key_exists($statusCode, Response::$statusTexts) ? Response::$statusTexts[$statusCode] : 'error';
+                $message = Response::$statusTexts[$statusCode] ?? null;
             }
             $exception = ApiError::create($statusCode, $message, $statusCode);
         }
@@ -48,9 +48,9 @@ class ExceptionController extends Controller
         if (!$exception instanceof ApiError) {
             $code = 500;
             $content = null;
-            $currentContent = $this->getAndCleanOutputBuffering($request->headers->get('X-Php-Ob-Level', -1));
 
             if ($this->isDebug()) {
+                $currentContent = $this->getAndCleanOutputBuffering($request->headers->get('X-Php-Ob-Level', -1));
                 $content = $this->renderView(
                     '@Twig/Exception/exception_full.html.twig',
                     [
