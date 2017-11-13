@@ -19,8 +19,6 @@ use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 /**
  * ExceptionListener.
  *
- * @author Ener-Getick <egetick@gmail.com>
- *
  * @internal
  */
 class ExceptionListener extends HttpKernelExceptionListener
