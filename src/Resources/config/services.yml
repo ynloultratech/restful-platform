@@ -29,7 +29,7 @@ services:
     restful_platform.exception_listener:
         class: Ynlo\RestfulPlatformBundle\EventListener\ExceptionListener
         public: false
-        arguments: ['%restful_platform.exception_controller%', '@logger']
+        arguments: ['%restful_platform.exception_controller%', '@?logger']
         tags:
             - { name: 'kernel.event_subscriber' }
 
