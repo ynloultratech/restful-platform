@@ -9,6 +9,7 @@
  * @author YNLO-Ultratech Development Team <developer@ynloultratech.com>
  * @package restful-platform
  */
+
 namespace Ynlo\RestfulPlatformBundle\Command;
 
 use Doctrine\ORM\EntityRepository;
@@ -35,7 +36,11 @@ class MediaServerPurgeCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
-        $class = $this->getContainer()->getParameter('restful_platform.config.media_server')['class'];
+        $class = $this->getContainer()->getParameter('restful_platform.config.media_server')['class'] ?? '';
+
+        if (!$class) {
+            throw  new \Exception('The option `restful_platform.config.media_server.class` is invalid.');
+        }
 
         $storagePool = $this->getContainer()->get('restful_platform.media_storage_pool');
 
