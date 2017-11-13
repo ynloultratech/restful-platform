@@ -12,7 +12,6 @@
 namespace Ynlo\RestfulPlatformBundle\MediaServer;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Ynlo\RestfulPlatformBundle\Annotation\AttachMediaFile;
 use Ynlo\RestfulPlatformBundle\Util\AnnotationReader;
@@ -24,9 +23,9 @@ use Ynlo\RestfulPlatformBundle\Util\AnnotationReader;
 class MediaServerMetadata
 {
     /**
-     * @var EntityManager
+     * @var Registry
      */
-    protected $em;
+    protected $doctrine;
 
     /**
      * @var string
@@ -39,12 +38,12 @@ class MediaServerMetadata
     protected $managedEntities = [];
 
     /**
-     * @param Registry $registry
-     * @param string        $cacheDir
+     * @param Registry $doctrine
+     * @param string   $cacheDir
      */
-    public function __construct(Registry $registry, $cacheDir)
+    public function __construct(Registry $doctrine, $cacheDir)
     {
-        $this->em = $registry->getManager();
+        $this->doctrine = $doctrine;
         $this->cacheDir = $cacheDir;
     }
 
@@ -102,7 +101,7 @@ class MediaServerMetadata
             return;
         }
 
-        $meta = $this->em->getMetadataFactory()->getAllMetadata();
+        $meta = $this->doctrine->getManager()->getMetadataFactory()->getAllMetadata();
         /** @var ClassMetadata $m */
         foreach ($meta as $m) {
             $properties = $m->getAssociationNames();

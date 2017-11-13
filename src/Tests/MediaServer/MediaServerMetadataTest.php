@@ -2,6 +2,7 @@
 
 namespace Ynlo\RestfulPlatformBundle\Tests\MediaServer;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\ClassMetadataFactory;
@@ -9,9 +10,12 @@ use PHPUnit\Framework\TestCase;
 use Ynlo\RestfulPlatformBundle\Annotation\AttachMediaFile;
 use Ynlo\RestfulPlatformBundle\MediaServer\AbstractMediaFile;
 use Ynlo\RestfulPlatformBundle\MediaServer\MediaServerMetadata;
+use Mockery as m;
 
 class MediaServerMetadataTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var EntityManager|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -25,7 +29,11 @@ class MediaServerMetadataTest extends TestCase
     protected function setUp()
     {
         $this->em = self::createMock(EntityManager::class);
-        $this->metadata = new MediaServerMetadata($this->em, sys_get_temp_dir());
+
+        $doctrine = m::mock(Registry::class);
+        $doctrine->shouldReceive('getManager')->andReturn($this->em);
+
+        $this->metadata = new MediaServerMetadata($doctrine, sys_get_temp_dir());
     }
 
     public function testMetadataCache()
