@@ -7,17 +7,20 @@ use Symfony\Component\DependencyInjection\Definition;
 use Tests\Fixtures\Model\User;
 use Ynlo\RestfulPlatformBundle\DependencyInjection\RestfulPlatformExtension;
 use PHPUnit\Framework\TestCase;
+use Mockery as m;
 
 class RestfulPlatformExtensionTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
-     * @var ContainerBuilder|\PHPUnit_Framework_MockObject_MockObject
+     * @var ContainerBuilder|m\Mock
      */
     protected $container;
 
     protected function setUp()
     {
-        $this->container = self::createMock(ContainerBuilder::class);
+        $this->container = m::mock(ContainerBuilder::class)->makePartial();
     }
 
     public function testLoad()
@@ -25,37 +28,43 @@ class RestfulPlatformExtensionTest extends TestCase
         $config = [];
         $extension = new RestfulPlatformExtension();
 
-        $this->container->expects(self::once())
-                        ->method('getParameter')
-                        ->with('kernel.debug')
-                        ->willReturn(true);
+        $this->container->shouldReceive('fileExists')->andReturn(true);
+        $this->container->shouldReceive('setDefinition');
+        $this->container->shouldReceive('setAlias');
 
-        $this->container->expects(self::at(0))
-                        ->method('setParameter')
-                        ->with('restful_platform.config');
+        $this->container->shouldReceive('getParameter')
+                        ->withArgs(['kernel.debug'])
+                        ->andReturn(true);
 
-        $this->container->expects(self::at(1))
-                        ->method('setParameter')
-                        ->with('restful_platform.config.media_server');
-
-        $this->container->expects(self::at(2))
-                        ->method('setParameter')
-                        ->with(
-                            'restful_platform.exception_controller',
-                            'restful_platform.exception_controller:showAction'
+        $this->container->shouldReceive('setParameter')
+                        ->withArgs(
+                            function ($arg1) {
+                                return $arg1 === 'restful_platform.config';
+                            }
                         );
 
-        $this->container->expects(self::atMost(3))
-                        ->method('removeDefinition')
-                        ->withConsecutive(
-                            ['restful_platform.media_file_api'],
-                            ['restful_platform.media_storage.default'],
-                            ['restful_platform.media_storage.local']
+        $this->container->shouldReceive('setParameter')
+                        ->withArgs(['restful_platform.config.media_server', []]);
+
+        $this->container->shouldReceive('setParameter')
+                        ->withArgs(
+                            [
+                                'restful_platform.exception_controller',
+                                'restful_platform.exception_controller:showAction',
+                            ]
                         );
 
-        $this->container->expects(self::never())
-                        ->method('getDefinition')
-                        ->with('restful_platform.cache_warmer');
+        $this->container->shouldReceive('removeDefinition')
+                        ->withArgs(['restful_platform.media_file_api']);
+
+        $this->container->shouldReceive('removeDefinition')
+                        ->withArgs(['restful_platform.media_storage.default']);
+
+        $this->container->shouldReceive('removeDefinition')
+                        ->withArgs(['restful_platform.media_storage.local']);
+
+        $this->container->shouldReceive('getDefinition')
+                        ->withArgs(['restful_platform.cache_warmer']);
 
         $extension->load([$config], $this->container);
     }
@@ -73,14 +82,25 @@ class RestfulPlatformExtensionTest extends TestCase
         ];
         $extension = new RestfulPlatformExtension();
 
-        $this->container->expects(self::once())
-                        ->method('getParameter')
-                        ->with('kernel.debug')
-                        ->willReturn(true);
+        $this->container->shouldReceive('setParameter')->withArgs(
+            function ($arg) {
+                return in_array(
+                    $arg,
+                    [
+                        'restful_platform.config',
+                        'restful_platform.config.media_server',
+                        'restful_platform.exception_controller'
+                    ]
+                );
+            }
+        );
 
-        $this->container->expects(self::never())
-                        ->method('removeDefinition')
-                        ->with('restful_platform.media_file_api');
+        $this->container->shouldReceive('getParameter')
+                        ->withArgs(['kernel.debug'])
+                        ->andReturn(true);
+
+        $this->container->shouldNotReceive('removeDefinition')
+                        ->withArgs(['restful_platform.media_file_api']);
 
         $extension->load([$config], $this->container);
     }
@@ -90,22 +110,37 @@ class RestfulPlatformExtensionTest extends TestCase
         $config = [];
         $extension = new RestfulPlatformExtension();
 
-        $this->container->expects(self::once())
-                        ->method('getParameter')
-                        ->with('kernel.debug')
-                        ->willReturn(false);
+        $this->container->shouldReceive('getParameter')
+                        ->withArgs(['kernel.debug'])
+                        ->andReturn(false);
 
 
-        $definition = self::createMock(Definition::class);
-        $definition->expects(self::atMost(2))->method('clearTag');
+        $this->container->shouldReceive('setParameter')->withArgs(
+            function ($arg) {
+                return in_array(
+                    $arg,
+                    [
+                        'restful_platform.config',
+                        'restful_platform.config.media_server',
+                        'restful_platform.exception_controller'
+                    ]
+                );
+            }
+        );
 
-        $this->container->expects(self::atMost(2))
-                        ->method('getDefinition')
-                        ->withConsecutive(
-                            ['restful_platform.cache_warmer'],
-                            ['restful_platform.media_server.cache_warmer']
-                        )
-                        ->willReturn($definition);
+        $definition1 = m::mock(Definition::class);
+        $definition1->shouldReceive('clearTag')->withArgs(['kernel.event_subscriber']);
+
+        $definition2 = m::mock(Definition::class);
+        $definition2->shouldReceive('clearTag')->withArgs(['kernel.event_subscriber']);
+
+        $this->container->shouldReceive('getDefinition')
+                        ->withArgs(['restful_platform.cache_warmer'])
+                        ->andReturn($definition1);
+
+        $this->container->shouldReceive('getDefinition')
+                        ->withArgs(['restful_platform.media_server.cache_warmer'])
+                        ->andReturn($definition2);
 
         $extension->load([$config], $this->container);
     }
