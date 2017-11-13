@@ -124,7 +124,8 @@ class RestApiSpecification
                     list($class, $action) = explode(':', $route->getDefault('_api'));
                     $operationSpecs = $api->$action();
 
-                    //use operation id like merchant_get or userRole_list to allow remove prefix using the --remove-operation-id-prefix in the swagger codegen
+                    //use operation id like merchant_get or userRole_list to allow
+                    //remove prefix using the --remove-operation-id-prefix in the swagger codegen
                     $operationId = Inflector::camelize($api->getBaseRouteName()).'_'.preg_replace('/Operation$/', '', Inflector::camelize($action));
                     $operationSpecs[] = SWOperation::operationId($operationId);
                     $operationSpecs[] = SWOperation::tag($api->getLabel());
@@ -139,14 +140,14 @@ class RestApiSpecification
             }
         }
 
-        $title = @$this->config['documentation']['info']['title'] ?: 'API';
-        $description = @$this->config['documentation']['info']['description'];
-        $version = @$this->config['documentation']['info']['version'];
+        $title = $this->config['documentation']['info']['title'] ?? 'API';
+        $description = $this->config['documentation']['info']['description'] ?? '';
+        $version = $this->config['documentation']['info']['version'] ?? '';
 
         $specs = [
             SWObject::info($title, $description, $version),
-            SWObject::host(@$this->config['host']),
-            SWObject::basePath(@$this->config['base_path']),
+            SWObject::host($this->config['host'] ?? ''),
+            SWObject::basePath($this->config['base_path'] ?? ''),
         ];
 
         $specs = array_merge($specs, $paths);
@@ -154,7 +155,6 @@ class RestApiSpecification
         $this->specification = new SwaggerObject();
         foreach ($specs as $spec) {
             if ($spec instanceof SpecDecorator) {
-
                 $decorator = $spec->getDecorator();
                 $decorator($this->specification);
             }
@@ -265,7 +265,7 @@ class RestApiSpecification
 
     protected function cacheFileName()
     {
-        return $this->cacheDir.DIRECTORY_SEPARATOR.'api_spec.meta';
+        return $this->cacheDir.'/api_spec.meta';
     }
 
     protected function loadCache()
@@ -280,6 +280,7 @@ class RestApiSpecification
 
     protected function saveCache()
     {
+        echo $this->cacheFileName();
         file_put_contents($this->cacheFileName(), serialize([$this->actionMap, $this->getSpecification()]));
     }
 }

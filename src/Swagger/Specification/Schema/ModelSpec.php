@@ -52,6 +52,14 @@ class ModelSpec implements SpecDecorator
     }
 
     /**
+     * @param ModelDescriberInterface[]|array $describers
+     */
+    public static function setDescribers(array $describers)
+    {
+        self::$modelDescribers = $describers;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function getDecorator(): callable

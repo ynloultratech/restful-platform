@@ -66,6 +66,7 @@ class SwaggerObject implements SwaggerSpecModel
     /**
      * @var array|Tag[]
      * @Serializer\Exclude(if="!object.getTags()")
+     * @Serializer\Type("array<Ynlo\RestfulPlatformBundle\Swagger\Model\Tag>")
      */
     protected $tags = [];
 
