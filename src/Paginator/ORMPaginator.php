@@ -12,6 +12,7 @@
 namespace Ynlo\RestfulPlatformBundle\Paginator;
 
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\QueryBuilder;
 use Hateoas\Representation\PaginatedRepresentation;
@@ -70,12 +71,12 @@ class ORMPaginator
     /**
      * ApiPaginator constructor.
      *
-     * @param EntityManager      $em
+     * @param Registry      $registry
      * @param PaginatorInterface $paginator
      */
-    public function __construct(EntityManager $em, PaginatorInterface $paginator)
+    public function __construct(Registry $registry, PaginatorInterface $paginator)
     {
-        $this->em = $em;
+        $this->em = $registry->getManager();
         $this->paginator = $paginator;
     }
 

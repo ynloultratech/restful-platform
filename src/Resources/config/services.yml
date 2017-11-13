@@ -43,7 +43,7 @@ services:
 
     restful_platform.resource_orm_paginator:
         class: Ynlo\RestfulPlatformBundle\Paginator\ORMPaginator
-        arguments: ['@doctrine.orm.entity_manager', '@knp_paginator']
+        arguments: ['@doctrine', '@knp_paginator']
 
     restful_platform.serializer_constructor:
         class: Ynlo\RestfulPlatformBundle\Serializer\UnserializeObjectConstructor
@@ -102,7 +102,7 @@ services:
 
     restful_platform.media_server.metadata:
         class: Ynlo\RestfulPlatformBundle\MediaServer\MediaServerMetadata
-        arguments: ['@doctrine.orm.entity_manager','%kernel.cache_dir%']
+        arguments: ['@doctrine','%kernel.cache_dir%']
 
     restful_platform.hateoas.media_file_configuration_extension:
         class: Ynlo\RestfulPlatformBundle\Hateoas\MediaFileConfigurationExtension

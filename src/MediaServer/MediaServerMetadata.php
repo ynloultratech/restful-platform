@@ -11,6 +11,7 @@
 
 namespace Ynlo\RestfulPlatformBundle\MediaServer;
 
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Ynlo\RestfulPlatformBundle\Annotation\AttachMediaFile;
@@ -38,12 +39,12 @@ class MediaServerMetadata
     protected $managedEntities = [];
 
     /**
-     * @param EntityManager $manager
+     * @param Registry $registry
      * @param string        $cacheDir
      */
-    public function __construct(EntityManager $manager, $cacheDir)
+    public function __construct(Registry $registry, $cacheDir)
     {
-        $this->em = $manager;
+        $this->em = $registry->getManager();
         $this->cacheDir = $cacheDir;
     }
 
