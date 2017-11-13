@@ -92,7 +92,7 @@ class RestApiController extends Controller implements RestApiControllerInterface
 
                         $qb->andWhere("$field = :$parameterName")
                            ->setParameter($parameterName, $value, $type);
-                    }else{
+                    } else {
                         $field($qb, $value);
                     }
                 }
@@ -117,9 +117,9 @@ class RestApiController extends Controller implements RestApiControllerInterface
     {
         $alias = $qb->getRootAliases()[0];
         $configureSearchFields = $this->api->configureSearchFields();
-        $meta = $qb->getEntityManager()->getClassMetadata($qb->getRootEntities()[0]);
 
         if (count($configureSearchFields) > 0) {
+            $meta = $qb->getEntityManager()->getClassMetadata($qb->getRootEntities()[0]);
             foreach ($search as $q) {
                 $id = mt_rand();
                 $orx = new Orx();

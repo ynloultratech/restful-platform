@@ -125,7 +125,7 @@ class User
      *
      * @return User
      */
-    public function setUsername(string $username): User
+    public function setUsername(string $username)
     {
         $this->username = $username;
 
