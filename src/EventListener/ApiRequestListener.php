@@ -35,7 +35,6 @@ class ApiRequestListener implements EventSubscriberInterface, ContainerAwareInte
     public static function getSubscribedEvents()
     {
         return [
-            // KernelEvents::REQUEST => ['onKernelRequest'],
             KernelEvents::VIEW => ['onKernelView', 30],
             KernelEvents::CONTROLLER => ['onController'],
         ];
@@ -48,7 +47,7 @@ class ApiRequestListener implements EventSubscriberInterface, ContainerAwareInte
     {
         $request = $event->getRequest();
         if ($apiCall = $request->get('_api')) {
-            list($apiClass, $action) = explode(':', $apiCall);
+            list($apiClass, ) = explode(':', $apiCall);
             /** @var RestApiInterface $api */
             $pool = $this->container->get('restful_platform.api_pool');
             $api = $pool->getApiByClass($apiClass);
@@ -58,7 +57,7 @@ class ApiRequestListener implements EventSubscriberInterface, ContainerAwareInte
 
             $api->setRequest($request);
 
-            list($controller, $action) = $event->getController();
+            list($controller, ) = $event->getController();
             if ($controller instanceof RestApiControllerInterface) {
                 $controller->setApi($api);
             }
