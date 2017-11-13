@@ -45,6 +45,7 @@ class MediaFileApiController extends RestApiController
             return Response::HTTP_BAD_REQUEST;
         }
         $content = stream_get_contents($mediaResource);
+
         fclose($mediaResource);
         if (!$content) {
             return Response::HTTP_BAD_REQUEST;
