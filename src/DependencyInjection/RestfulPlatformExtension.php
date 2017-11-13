@@ -37,15 +37,15 @@ class RestfulPlatformExtension extends Extension
             'restful_platform.exception_controller:showAction'
         );
 
+        $configDir = __DIR__.'/../Resources/config';
+        $loader = new YamlFileLoader($container, new FileLocator($configDir));
+        $loader->load('services.yml');
+
         if (!$mediaServer || empty($mediaServer)) {
             $container->removeDefinition('restful_platform.media_file_api');
             $container->removeDefinition('restful_platform.media_storage.default');
             $container->removeDefinition('restful_platform.media_storage.local');
         }
-
-        $configDir = __DIR__.'/../Resources/config';
-        $loader = new YamlFileLoader($container, new FileLocator($configDir));
-        $loader->load('services.yml');
 
         //in production does not clear cache using request events
         if (!$container->getParameter('kernel.debug')) {
