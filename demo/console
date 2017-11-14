@@ -22,6 +22,6 @@ if ($debug) {
     Debug::enable();
 }
 
-$kernel = new ApiDemoKernel($env, $debug);
+$kernel = new ApiDemoKernel('prod', false);
 $application = new Application($kernel);
 $application->run($input);

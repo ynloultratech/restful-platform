@@ -22,7 +22,6 @@ class ApiDemoKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\WebServerBundle\WebServerBundle(),
-            new Symfony\Bundle\DebugBundle\DebugBundle(),
 
             new Ynlo\RestfulPlatformBundle\RestfulPlatformBundle(),
 
@@ -33,6 +32,9 @@ class ApiDemoKernel extends Kernel
             new Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\ApiDemoBundle(),
         ];
 
+        if ($this->isDebug()) {
+            $bundles[] = new Symfony\Bundle\DebugBundle\DebugBundle();
+        }
 
         return $bundles;
     }
