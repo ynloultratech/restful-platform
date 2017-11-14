@@ -4,4 +4,10 @@ shell_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd "${shell_path}"
 path=$(pwd)
 
+./console cache:clear --env=prod --no-warmup
+./console cache:warmup --env=prod
+./console doctrine:database:drop
+./console doctrine:database:create
+./console doctrine:schema:update -f
+./console doctrine:fixtures:load -n
 ./console server:run --docroot=public
