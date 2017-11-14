@@ -13,6 +13,7 @@ namespace Ynlo\RestfulPlatformBundle\Test;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Client;
 
 class ApiTestCase extends WebTestCase
@@ -67,5 +68,13 @@ class ApiTestCase extends WebTestCase
     protected static function assertResponseCodeIs($code)
     {
         self::assertEquals($code, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    /**
+     * @return Response
+     */
+    protected static function getResponse(): Response
+    {
+        return self::getClient()->getResponse();
     }
 }
