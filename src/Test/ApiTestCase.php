@@ -19,6 +19,7 @@ class ApiTestCase extends WebTestCase
     use RequestHelperTrait;
     use ResponseHelperTrait;
     use JsonHelperTrait;
+    use DoctrineORMHelperTrait;
 
     private static $client;
 
