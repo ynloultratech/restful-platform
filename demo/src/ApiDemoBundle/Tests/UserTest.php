@@ -10,6 +10,7 @@
 
 namespace Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\Tests;
 
+use Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\Entity\User;
 use Ynlo\RestfulPlatformBundle\Test\ApiTestCase;
 
 class UserTest extends ApiTestCase
@@ -30,5 +31,53 @@ class UserTest extends ApiTestCase
         self::assertJsonPathContains(30, 'limit');
 
         self::assertJsonPathContains(['admin', 'edward', 'darren', 'kevin'], 'items[*].username');
+    }
+
+    public function testUserCreate()
+    {
+        self::sendPOST('/v1/users', json_encode(['username' => 'david']));
+
+        self::assertResponseCodeIsCreated();
+        self::assertRepositoryContains(User::class, ['username' => 'david']);
+        self::assertJsonPathContains('david', 'username');
+    }
+
+    public function testUserGet()
+    {
+        self::sendGET('/v1/users/1');
+
+        self::assertResponseCodeIsOK();
+        self::assertJsonPathContains('admin', 'username');
+
+
+        self::sendGET('/v1/users/0');
+
+        self::assertResponseCodeIsNotFound();
+        self::assertResponseEmptyContent();
+    }
+
+    public function testUserUpdate()
+    {
+        self::sendGET('/v1/users/1');
+
+        self::assertResponseCodeIsOK();
+        self::assertJsonPathContains('admin', 'username');
+
+        $user = self::getResponseJsonArray();
+        $user['username'] = 'root';
+
+        self::sendPUT('/v1/users/1', json_encode($user));
+
+        self::assertResponseCodeIsOK();
+        self::assertRepositoryContains(User::class, ['id' => 1, 'username' => 'root']);
+        self::assertJsonPathContains('root', 'username');
+    }
+
+    public function testUserDelete()
+    {
+        self::sendDELETE('/v1/users/1');
+
+        self::assertResponseCodeIsNoContent();
+        self::assertRepositoryNotContains(User::class, ['username' => 'root']);
     }
 }
