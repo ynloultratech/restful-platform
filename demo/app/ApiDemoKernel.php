@@ -24,11 +24,11 @@ class ApiDemoKernel extends Kernel
             new Symfony\Bundle\WebServerBundle\WebServerBundle(),
             new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 
-            new Ynlo\RestfulPlatformBundle\RestfulPlatformBundle(),
-
             //dependencies
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),//TODO: make optional
+
+            new Ynlo\RestfulPlatformBundle\RestfulPlatformBundle(),
 
             new Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\ApiDemoBundle(),
         ];
