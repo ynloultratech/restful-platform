@@ -14,9 +14,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Ynlo\RestfulPlatformBundle\Api\RestApiInterface;
 use Ynlo\RestfulPlatformBundle\Routing\ApiRouteCollection;
 use PHPUnit\Framework\TestCase;
+use Mockery as m;
 
 class ApiRouteCollectionTest extends TestCase
 {
+    use m\Adapter\Phpunit\MockeryPHPUnitIntegration;
+
     /**
      * @var RestApiInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -157,5 +160,12 @@ class ApiRouteCollectionTest extends TestCase
     {
         $name = $this->collection->actionify('create');
         self::assertEquals('createAction', $name);
+
+        $api = m::mock(RestApiInterface::class);
+        $collection = new ApiRouteCollection($api);
+
+        $api->shouldReceive('getBaseControllerName')->andReturn('AppBundle:CRUDController');
+        $name = $collection->actionify('create');
+        self::assertEquals('create', $name);
     }
 }

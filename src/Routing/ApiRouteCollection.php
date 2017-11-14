@@ -196,7 +196,11 @@ class ApiRouteCollection
      */
     public function actionify($action)
     {
-        $action .= 'Action';
+        // if this is a service rather than just a controller action, the suffix
+        // Action is not automatically appended to the method action
+        if (strpos($this->getBaseControllerName(), ':') === false) {
+            $action .= 'Action';
+        }
 
         return lcfirst(str_replace(' ', '', ucwords(strtr($action, '_-', '  '))));
     }
