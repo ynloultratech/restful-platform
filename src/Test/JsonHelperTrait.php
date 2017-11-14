@@ -28,7 +28,7 @@ trait JsonHelperTrait
 
     protected static function getResponseJsonArray()
     {
-        return json_decode(self::getResponse()->getContent());
+        return json_decode(self::getResponse()->getContent(), true);
     }
 
     protected static function getJsonPathValue($path)
