@@ -70,6 +70,36 @@ class ApiTestCase extends WebTestCase
         self::assertEquals($code, self::getClient()->getResponse()->getStatusCode());
     }
 
+    protected static function assertResponseCodeIsOK()
+    {
+        self::assertEquals(Response::HTTP_OK, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    protected static function assertResponseCodeIsNotFound()
+    {
+        self::assertEquals(Response::HTTP_NOT_FOUND, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    protected static function assertResponseCodeIsNoContent()
+    {
+        self::assertEquals(Response::HTTP_NO_CONTENT, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    protected static function assertResponseCodeIsCreated()
+    {
+        self::assertEquals(Response::HTTP_CREATED, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    protected static function assertResponseCodeIsForbidden()
+    {
+        self::assertEquals(Response::HTTP_FORBIDDEN, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    protected static function assertResponseCodeIsUnprocessableEntity()
+    {
+        self::assertEquals(Response::HTTP_UNPROCESSABLE_ENTITY, self::getClient()->getResponse()->getStatusCode());
+    }
+
     /**
      * @return Response
      */
