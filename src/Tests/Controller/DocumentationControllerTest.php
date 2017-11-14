@@ -84,8 +84,29 @@ class DocumentationControllerTest extends TestCase
                         ->with('restful_platform.api_specification')
                         ->willReturn($spec);
 
-        $response = $controller->docJsonAction();
+        $response = $controller->docJsonAction(new Request());
         self::assertEquals(200, $response->getStatusCode());
         self::assertEquals($json, $response->getContent());
+    }
+
+    public function testDocJsonAction_WithVersion()
+    {
+        $controller = new DocumentationController();
+        $controller->setContainer($this->container);
+
+        $json = '{"api":"json", "basePath": "\/{version}"}';
+        $jsonResult = '{"api":"json","basePath":"\/v1"}';
+
+        $spec = self::createMock(RestApiSpecification::class);
+        $spec->method('serialize')->willReturn($json);
+
+        $this->container->expects(self::once())
+                        ->method('get')
+                        ->with('restful_platform.api_specification')
+                        ->willReturn($spec);
+
+        $response = $controller->docJsonAction(new Request(['version' => 'v1']));
+        self::assertEquals(200, $response->getStatusCode());
+        self::assertEquals($jsonResult, $response->getContent());
     }
 }

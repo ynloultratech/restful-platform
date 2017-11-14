@@ -39,9 +39,21 @@ class DocumentationController extends Controller
     /**
      * @return JsonResponse
      */
-    public function docJsonAction(): JsonResponse
+    public function docJsonAction(Request $request): JsonResponse
     {
         $specification = $this->get('restful_platform.api_specification')->serialize();
+
+        //TODO: support for versioning inside the api_specification
+        //FIXME: remove this statements when versioning is ready
+        $specArray = json_decode($specification, true);
+        $basePath = $specArray['basePath']??'';
+
+        if (preg_match('/{version}/', $basePath)) {
+            $basePath = preg_replace('/{version}/', $request->get('version'), $basePath);
+            $specArray['basePath'] = $basePath;
+        }
+
+        $specification = json_encode($specArray);
 
         return JsonResponse::fromJsonString($specification);
     }
