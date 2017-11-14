@@ -1,0 +1,5 @@
+api:
+    resource: .
+    type:     restful
+    prefix:   /{version}
+    defaults: {"_format":"json"}
