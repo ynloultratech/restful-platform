@@ -56,7 +56,7 @@
 <script>
     window.onload = function () {
         const ui = SwaggerUIBundle({
-            url: '{{ path('rest_api_doc_json', { 'version': version }) }}',
+            url: '{{ url('rest_api_doc_json', { 'version': version }) }}',
             dom_id: '#swagger-ui',
             docExpansion: 'none',
             validatorUrl: null,
