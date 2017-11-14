@@ -10,8 +10,12 @@
 
 namespace Ynlo\RestfulPlatformBundle\Test;
 
+use Symfony\Component\BrowserKit\Client;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @method Client getClient()
+ */
 trait RequestHelperTrait
 {
     /**
@@ -21,5 +25,14 @@ trait RequestHelperTrait
     protected static function sendGET($path, array $parameters = [])
     {
         self::getClient()->request(Request::METHOD_GET, $path, $parameters);
+    }
+
+    /**
+     * @param string       $path
+     * @param string|array $content
+     */
+    protected static function sendPOST($path, $content)
+    {
+        self::getClient()->request(Request::METHOD_POST, $path, [], [], [], $content);
     }
 }
