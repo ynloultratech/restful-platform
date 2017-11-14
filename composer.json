@@ -37,7 +37,8 @@
     "twig/twig": "~1.34|~2.4",
     "willdurand/hateoas-bundle": "^1.2",
     "knplabs/knp-paginator-bundle": "^2.5",
-    "lexik/jwt-authentication-bundle": "^2.4"
+    "lexik/jwt-authentication-bundle": "^2.4",
+    "mtdowling/jmespath.php": "^2.4"
   },
   "require-dev": {
     "phpunit/phpunit": "^6.2",
