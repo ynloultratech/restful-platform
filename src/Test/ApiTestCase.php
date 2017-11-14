@@ -11,6 +11,7 @@
 
 namespace Ynlo\RestfulPlatformBundle\Test;
 
+use function JmesPath\search;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,6 +69,56 @@ class ApiTestCase extends WebTestCase
     protected static function assertResponseCodeIs($code)
     {
         self::assertEquals($code, self::getClient()->getResponse()->getStatusCode());
+    }
+
+    protected static function getJsonPathValue($path)
+    {
+        return search($path, json_decode(self::getClient()->getResponse()->getContent()));
+    }
+
+    protected static function assertJsonPathExist($type, $path)
+    {
+        self::assertInternalType($type, self::getJsonPathValue($path));
+    }
+
+    protected static function assertJsonPathInternalType($type, $path)
+    {
+        self::assertInternalType($type, self::getJsonPathValue($path));
+    }
+
+    protected static function assertJsonPathNotInternalType($type, $path)
+    {
+        self::assertNotInternalType($type, self::getJsonPathValue($path));
+    }
+
+    protected static function assertJsonPathContains($expected, $path)
+    {
+        self::assertEquals($expected, self::getJsonPathValue($path));
+    }
+
+    protected static function assertJsonPathNotContains($expected, $path)
+    {
+        self::assertNotEquals($expected, self::getJsonPathValue($path));
+    }
+
+    protected static function assertJsonPathMatch($path)
+    {
+        $value = self::getJsonPathValue($path);
+        if (is_array($value)) {
+            self::assertNotEmpty($value);
+        } else {
+            self::assertNotNull($value);
+        }
+    }
+
+    protected static function assertJsonPathNotMatch($path)
+    {
+        $value = self::getJsonPathValue($path);
+        if (is_array($value)) {
+            self::assertEmpty($value);
+        } else {
+            self::assertNull($value);
+        }
     }
 
     protected static function assertResponseCodeIsOK()
