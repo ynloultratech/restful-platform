@@ -10,10 +10,19 @@
 
 namespace Ynlo\RestfulPlatformBundle\Test;
 
+use Symfony\Bundle\FrameworkBundle\Client;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * @method Client getClient()
+ */
 trait ResponseHelperTrait
 {
+    protected static function assertResponseEmptyContent()
+    {
+        self::assertEmpty(self::getClient()->getResponse()->getContent());
+    }
+
     protected static function assertResponseCodeIs($code)
     {
         self::assertEquals($code, self::getClient()->getResponse()->getStatusCode());
