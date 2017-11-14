@@ -44,4 +44,12 @@ trait RequestHelperTrait
     {
         self::getClient()->request(Request::METHOD_PUT, $path, [], [], [], $content);
     }
+
+    /**
+     * @param string $path
+     */
+    protected static function sendDELETE($path)
+    {
+        self::getClient()->request(Request::METHOD_DELETE, $path);
+    }
 }
