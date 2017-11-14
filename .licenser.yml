@@ -1,7 +1,0 @@
-finder:
-    in:
-        - src
-        - demo/src
-parameters:
-    author: YNLO-Ultratech Development Team <developer@ynloultratech.com>
-    package: restful-platform
