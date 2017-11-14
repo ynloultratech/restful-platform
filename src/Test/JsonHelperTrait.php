@@ -26,9 +26,14 @@ trait JsonHelperTrait
         self::assertJson($response->getContent());
     }
 
+    protected static function getResponseJsonArray()
+    {
+        return json_decode(self::getResponse()->getContent());
+    }
+
     protected static function getJsonPathValue($path)
     {
-        return search($path, json_decode(self::getResponse()->getContent()));
+        return search($path, self::getResponseJsonArray());
     }
 
     protected static function assertJsonPathExist($type, $path)
