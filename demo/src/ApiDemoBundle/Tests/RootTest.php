@@ -10,6 +10,7 @@
 
 namespace Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\Tests;
 
+use Symfony\Component\HttpFoundation\Response;
 use Ynlo\RestfulPlatformBundle\Test\ApiTestCase;
 
 class RootTest extends ApiTestCase
@@ -17,6 +18,7 @@ class RootTest extends ApiTestCase
     public function testRoot()
     {
         self::sendGET('/');
+        self::assertResponseCodeIs(Response::HTTP_NOT_FOUND);
         self::assertResponseIsValidJson();
     }
 }

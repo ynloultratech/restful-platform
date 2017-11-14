@@ -58,4 +58,14 @@ class ApiTestCase extends WebTestCase
         self::assertEquals('application/json', $response->headers->get('Content-Type'));
         self::assertJson($response->getContent());
     }
+
+    /**
+     * Check if given status code match with the latest response
+     *
+     * @param int $code
+     */
+    protected static function assertResponseCodeIs($code)
+    {
+        self::assertEquals($code, self::getClient()->getResponse()->getStatusCode());
+    }
 }
