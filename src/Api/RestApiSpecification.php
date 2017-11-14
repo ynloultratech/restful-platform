@@ -159,13 +159,14 @@ class RestApiSpecification
             }
         }
 
-        if (isset($this->config['documentation']['tags']) && $tags = $this->config['documentation']['tags']) {
+        $tags = $this->config['documentation']['tags']??[];
 
-            //Root is the first by default
-            if (!isset($tags['Root'])) {
-                $this->specification->addTag('Root', 'Root Endpoint to discover all possible API operations');
-            }
+        //Root is the first by default
+        if (!isset($tags['Root'])) {
+            $this->specification->addTag('Root', 'Root Endpoint to discover all possible API operations');
+        }
 
+        if ($tags) {
             foreach ($tags as $name => $tag) {
                 $description = null;
                 if (is_string($tag) && $tag) {
