@@ -3,6 +3,7 @@ composer.phar
 phpunit.xml
 
 /demo/app/demo.db
+/demo/public/bundles
 
 /vendor/
 /demo/var
