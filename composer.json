@@ -47,7 +47,8 @@
     "mockery/mockery": "dev-master",
     "doctrine/orm": "^2.5",
     "doctrine/doctrine-bundle": "^1.6",
-    "monolog/monolog": "^1.23"
+    "monolog/monolog": "^1.23",
+    "doctrine/doctrine-fixtures-bundle": "^2.4"
   },
   "extra": {
     "branch-alias": {
