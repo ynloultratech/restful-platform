@@ -1,5 +1,7 @@
 composer.phar
 .web-server-pid
+phpunit.xml
+
 /vendor/
 /demo/var
 
