@@ -2,6 +2,8 @@ composer.phar
 .web-server-pid
 phpunit.xml
 
+/demo/app/demo.db
+
 /vendor/
 /demo/var
 
