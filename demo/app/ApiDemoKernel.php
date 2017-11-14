@@ -22,6 +22,7 @@ class ApiDemoKernel extends Kernel
             new Symfony\Bundle\MonologBundle\MonologBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Symfony\Bundle\WebServerBundle\WebServerBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
 
             new Ynlo\RestfulPlatformBundle\RestfulPlatformBundle(),
 
