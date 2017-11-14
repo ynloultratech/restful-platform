@@ -29,6 +29,32 @@ class User
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="username", type="string")
      */
     protected $username;
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername(string $username)
+    {
+        $this->username = $username;
+    }
 }
