@@ -21,6 +21,9 @@ install:
 before_script:
   - php demo/console cache:clear --env=test --no-warmup
   - php demo/console cache:warmup --env=test
+  - php demo/console doctrine:database:create --env=test
+  - php demo/console doctrine:schema:update -f --env=test
+  - php demo/console doctrine:fixtures:load -n --env=test
 
 script:
   - mkdir -p build/logs
