@@ -32,4 +32,9 @@ trait DoctrineORMHelperTrait
     {
         self::assertNotNull(self::getRepository($class)->findOneBy($criteria));
     }
+
+    public static function assertRepositoryNotContains($class, $criteria)
+    {
+        self::assertNull(self::getRepository($class)->findOneBy($criteria));
+    }
 }
