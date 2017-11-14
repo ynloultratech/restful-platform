@@ -35,4 +35,13 @@ trait RequestHelperTrait
     {
         self::getClient()->request(Request::METHOD_POST, $path, [], [], [], $content);
     }
+
+    /**
+     * @param string       $path
+     * @param string|array $content
+     */
+    protected static function sendPUT($path, $content)
+    {
+        self::getClient()->request(Request::METHOD_PUT, $path, [], [], [], $content);
+    }
 }
