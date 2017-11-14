@@ -1,0 +1,7 @@
+#!/bin/bash
+
+shell_path="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${shell_path}"
+path=$(pwd)
+
+./console server:run --docroot=public

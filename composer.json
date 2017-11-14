@@ -23,8 +23,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
-    }
+      "Ynlo\\RestfulPlatformBundle\\Demo\\": "demo/src/"
+    },
+    "classmap": [
+      "demo/app/ApiDemoKernel.php"
+    ]
   },
   "require": {
     "php": ">=7",
@@ -39,9 +42,12 @@
   "require-dev": {
     "phpunit/phpunit": "^6.2",
     "symfony/phpunit-bridge": "^3.1",
+    "symfony/web-server-bundle": "^3.3",
+    "symfony/monolog-bundle": "^3.1",
     "mockery/mockery": "dev-master",
     "doctrine/orm": "^2.5",
-    "doctrine/doctrine-bundle": "^1.6"
+    "doctrine/doctrine-bundle": "^1.6",
+    "monolog/monolog": "^1.23"
   },
   "extra": {
     "branch-alias": {

@@ -6,10 +6,14 @@
 >
     <php>
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
+        <server name="KERNEL_DIR" value="demo/app/" />
     </php>
     <testsuites>
-        <testsuite name="TestSuite">
+        <testsuite name="Unit Tests">
             <directory>src/Tests/</directory>
+        </testsuite>
+        <testsuite name="Integration Tests">
+            <directory>demo/src/ApiDemoBundle/Tests/</directory>
         </testsuite>
     </testsuites>
 
