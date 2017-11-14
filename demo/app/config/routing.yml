@@ -3,3 +3,7 @@ api:
     type:     restful
     prefix:   /{version}
     defaults: {"_format":"json"}
+
+api_doc:
+      resource: '@RestfulPlatformBundle/Resources/config/routing/doc.yml'
+      prefix:   /{version}/doc
