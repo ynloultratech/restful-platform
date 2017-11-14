@@ -165,7 +165,7 @@ class CRUDRestApi extends AbstractRestApi
         $this->routes->add(Request::METHOD_GET, 'list');
         $this->routes->add(Request::METHOD_POST, 'create');
         $this->routes->add(Request::METHOD_GET, 'get', $this->getRouterIdParameter());
-        $this->routes->add(Request::METHOD_PATCH, 'update', $this->getRouterIdParameter());
+        $this->routes->add(Request::METHOD_PUT, 'update', $this->getRouterIdParameter());
         $this->routes->add(Request::METHOD_DELETE, 'remove', $this->getRouterIdParameter());
     }
 
