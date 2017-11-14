@@ -280,7 +280,6 @@ class RestApiSpecification
 
     protected function saveCache()
     {
-        echo $this->cacheFileName();
         file_put_contents($this->cacheFileName(), serialize([$this->actionMap, $this->getSpecification()]));
     }
 }
