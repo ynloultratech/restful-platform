@@ -17,8 +17,8 @@ class RootTest extends ApiTestCase
 {
     public function testRoot()
     {
-        self::sendGET('/');
-        self::assertResponseCodeIs(Response::HTTP_NOT_FOUND);
+        self::sendGET('/v1/');
+        self::assertResponseCodeIs(Response::HTTP_OK);
         self::assertResponseIsValidJson();
     }
 }
