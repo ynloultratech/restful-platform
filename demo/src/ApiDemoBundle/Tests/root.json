@@ -1,0 +1,27 @@
+{
+  "User": {
+    "list": {
+      "href": "http:\/\/localhost\/v1\/users{?q,page,limit}"
+    },
+    "create": {
+      "href": "http:\/\/localhost\/v1\/users",
+      "method": "post"
+    },
+    "get": {
+      "href": "http:\/\/localhost\/v1\/users\/{userId}"
+    },
+    "update": {
+      "href": "http:\/\/localhost\/v1\/users\/{userId}",
+      "method": "put"
+    },
+    "remove": {
+      "href": "http:\/\/localhost\/v1\/users\/{userId}",
+      "method": "delete"
+    }
+  },
+  "Root": {
+    "root": {
+      "href": "http:\/\/localhost\/v1\/"
+    }
+  }
+}

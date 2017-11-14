@@ -10,7 +10,25 @@
 
 namespace Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity()
+ * @ORM\Table()
+ */
 class User
 {
+    /**
+     * @var int
+     *
+     * @ORM\Id
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
 
+    /**
+     * @var string
+     */
+    protected $username;
 }

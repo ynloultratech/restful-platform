@@ -4,4 +4,12 @@ parameters:
 #    parameter_name: value
 
 services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Ynlo\RestfulPlatformBundle\Demo\ApiDemoBundle\Api\:
+        resource: '../../src/ApiDemoBundle/Api/*'
+
+
 

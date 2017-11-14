@@ -20,5 +20,6 @@ class RootTest extends ApiTestCase
         self::sendGET('/v1/');
         self::assertResponseCodeIs(Response::HTTP_OK);
         self::assertResponseIsValidJson();
+        self::assertJsonStringEqualsJsonFile(__DIR__.'/root.json', self::getResponse()->getContent());
     }
 }
